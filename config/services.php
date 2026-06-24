@@ -34,5 +34,16 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'viaaccount' => [
+        'base_url' => env('VIAACCOUNT_URL'),
+
+        'client_id' => env('VIAACCOUNT_CLIENT_ID'),
+        'client_secret' => env('VIAACCOUNT_CLIENT_SECRET'),
+        'redirect' => env('VIAACCOUNT_REDIRECT_URI'),
+
+        'authorization_endpoint' => env('VIAACCOUNT_URL').'/oauth/authorize',
+        'token_endpoint' => env('VIAACCOUNT_URL').'/oauth/token',
+        'user_endpoint' => env('VIAACCOUNT_URL').'/api/user',
+    ],
 
 ];
