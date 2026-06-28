@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div class="space-y-4">
 
     <div>
         <flux:heading size="xl">
@@ -12,18 +12,18 @@
 
     <div class="grid gap-4 md:grid-cols-3">
 
-        <flux:card class="space-y-2">
-            <flux:text size="sm">
-                Saldo Member
+        <flux:card class="space-y-2 bg-teal-500">
+            <flux:text class="text-zinc-200">
+                Saldo
             </flux:text>
 
-            <flux:heading size="lg">
+            <flux:heading size="xl" class="font-bold text-white">
                 {{ Number::currency($summary['balance'], 'IDR') }}
             </flux:heading>
         </flux:card>
 
         <flux:card class="space-y-2">
-            <flux:text size="sm">
+            <flux:text>
                 Lot Aktif
             </flux:text>
 
@@ -33,7 +33,7 @@
         </flux:card>
 
         <flux:card class="space-y-2">
-            <flux:text size="sm">
+            <flux:text>
                 Estimasi Pendapatan
             </flux:text>
 

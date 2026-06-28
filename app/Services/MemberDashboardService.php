@@ -19,7 +19,8 @@ class MemberDashboardService
         return [
             'balance' => MemberLedger::query()
                 ->where('member_id', $member->id)
-                ->sum('amount'),
+                ->latest('id')
+                ->value('balance') ?? 0,
 
             'active_lot_count' => $lots->count(),
 
