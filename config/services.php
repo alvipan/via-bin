@@ -35,15 +35,20 @@ return [
         ],
     ],
     'viaaccount' => [
-        'base_url' => env('VIAACCOUNT_URL'),
+        'base_url' => env('VIA_URL'),
 
-        'client_id' => env('VIAACCOUNT_CLIENT_ID'),
-        'client_secret' => env('VIAACCOUNT_CLIENT_SECRET'),
-        'redirect' => env('VIAACCOUNT_REDIRECT_URI'),
+        'client_id' => env('VIA_CLIENT_ID'),
+        'client_secret' => env('VIA_CLIENT_SECRET'),
+        'redirect' => env('VIA_REDIRECT_URI'),
 
-        'authorization_endpoint' => env('VIAACCOUNT_URL').'/oauth/authorize',
-        'token_endpoint' => env('VIAACCOUNT_URL').'/oauth/token',
-        'user_endpoint' => env('VIAACCOUNT_URL').'/api/user',
+        'authorization_endpoint' => env('VIA_URL').'/oauth/authorize',
+        'token_endpoint' => env('VIA_URL').'/oauth/token',
+        'revoke_endpoint' => env('VIA_URL').'/oauth/revoke',
+
+        'user_endpoint' => env('VIA_URL').'/api/user',
+        'userinfo_endpoint' => env('VIA_URL').'/api/userinfo',
+
+        'users_endpoint' => env('VIA_URL').'/api/users',
     ],
 
 ];

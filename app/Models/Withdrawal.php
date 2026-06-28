@@ -2,31 +2,103 @@
 
 namespace App\Models;
 
+use App\Enums\SequenceType;
+use App\Enums\WithdrawalStatus;
 use App\Models\Concerns\HasTenant;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Services\SequenceService;
+use App\Support\TenantContext;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['tenant_id', 'member_profile_id', 'approved_by', 'reference_number', 'amount', 'status'])]
 class Withdrawal extends Model
 {
-    use HasFactory, HasTenant;
+    use HasTenant;
+
+    protected $fillable = [
+        'member_id',
+        'amount',
+        'notes',
+        'status',
+        'posted_at',
+        'posted_by',
+        'member_ledger_id',
+        'created_by',
+    ];
 
     protected function casts(): array
     {
         return [
             'amount' => 'decimal:2',
+            'status' => WithdrawalStatus::class,
+            'posted_at' => 'datetime',
         ];
     }
 
-    public function memberProfile(): BelongsTo
+    protected static function booted(): void
     {
-        return $this->belongsTo(MemberProfile::class);
+        static::creating(function (Withdrawal $withdrawal): void {
+            if (blank($withdrawal->withdrawal_no)) {
+                $withdrawal->withdrawal_no = SequenceService::nextCode(
+                    TenantContext::id(),
+                    SequenceType::WITHDRAWAL->value,
+                    'WD',
+                );
+            }
+        });
     }
 
-    public function approver(): BelongsTo
+    public function member(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'approved_by');
+        return $this->belongsTo(Member::class);
+    }
+
+    public function ledger(): BelongsTo
+    {
+        return $this->belongsTo(MemberLedger::class, 'member_ledger_id');
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function poster(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'posted_by');
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === WithdrawalStatus::Draft;
+    }
+
+    public function isPending(): bool
+    {
+        return $this->status === WithdrawalStatus::Pending;
+    }
+
+    public function isPosted(): bool
+    {
+        return $this->status === WithdrawalStatus::Posted;
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->status === WithdrawalStatus::Rejected;
+    }
+
+    public function canPost(): bool
+    {
+        return $this->isDraft() || $this->isPending();
+    }
+
+    public function canEdit(): bool
+    {
+        return ! $this->isPosted();
+    }
+
+    public function canDelete(): bool
+    {
+        return ! $this->isPosted();
     }
 }

@@ -18,7 +18,7 @@ class ViaAccountAuthService
             'client_id' => $config['client_id'],
             'redirect_uri' => $config['redirect'],
             'response_type' => 'code',
-            'scope' => '*',
+            'scope' => 'profile email',
             'state' => $state,
         ]);
 

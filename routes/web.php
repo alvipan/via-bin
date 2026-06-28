@@ -1,43 +1,62 @@
 <?php
 
-use App\Livewire\Dashboard;
-use Illuminate\Support\Facades\Route;
-
-use App\Livewire\Onboarding\Index as OnboardingIndex;
-use App\Livewire\Tenant\Index as TenantIndex;
-use App\Livewire\Tenant\Create as TenantCreate;
-use App\Livewire\Tenant\Edit as TenantEdit;
-use App\Livewire\Sales\Index as SalesIndex;
-use App\Livewire\Sales\Create as SalesCreate;
-use App\Livewire\Sales\Show as SalesShow;
-use App\Livewire\Withdrawal\Index as WithdrawalIndex;
-use App\Livewire\Withdrawal\Show as WithdrawalShow;
-use App\Livewire\Withdrawal\Approve as WithdrawalApprove;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\LogoutController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', Dashboard::class)
-	->middleware(['auth', 'tenant'])
-	->name('dashboard');
+Route::get('/', function() {
+    return view('welcome');
+});
+
+Route::post('/logout', LogoutController::class)->name('logout');
 
 Route::get('/auth/redirect', [AuthController::class, 'redirectToViaAccount'])->name('auth.redirect');
 Route::get('/auth/callback', [AuthController::class, 'handleCallback'])->name('auth.callback');
 Route::get('/login', fn () => redirect()->route('auth.redirect'))->name('login');
 
-Route::middleware(['auth'])->group(function () {
-	Route::get('/onboarding', OnboardingIndex::class)->name('onboarding');
-	Route::get('/tenants', TenantIndex::class)->name('tenants.index');
-	Route::get('/tenants/create', TenantCreate::class)->name('tenants.create');
-	Route::get('/tenants/{tenant}/edit', TenantEdit::class)->name('tenants.edit');
-	Route::get('/tenants/{tenant}', App\Livewire\Tenant\Show::class)->name('tenants.show');
-	Route::post('/tenants/switch/{tenant}', [TenantController::class, 'switch'])->name('tenants.switch');
-	Route::get('/sales', SalesIndex::class)->name('sales.index');
-	Route::get('/sales/create', SalesCreate::class)->name('sales.create');
-	Route::get('/sales/{sale}', SalesShow::class)->name('sales.show');
-	Route::get('/deposits', App\Livewire\Deposit\Index::class)->name('deposits.index');
-	Route::get('/deposits/create', App\Livewire\Deposit\Create::class)->name('deposits.create');
-	Route::get('/deposits/{deposit}', App\Livewire\Deposit\Show::class)->name('deposits.show');
-	Route::get('/withdrawals', WithdrawalIndex::class)->name('withdrawals.index');
-	Route::get('/withdrawals/{withdrawal}', WithdrawalShow::class)->name('withdrawals.show');
-	Route::post('/withdrawals/{withdrawal}/approve', [App\Http\Controllers\WithdrawalController::class, 'approve'])->name('withdrawals.approve');
+Route::middleware(['auth'])->group(function()
+{
+    Route::livewire('/tenants', 'pages::tenants.index')->name('tenants.index');
+    Route::livewire('/onboarding', 'pages::onboarding')->name('onboarding');
+});
+
+Route::middleware(['auth', 'tenant'])->group(function () 
+{
+    Route::livewire('/settings', 'pages::settings')->name('settings');
+
+    Route::livewire('/dashboard', 'pages::dashboard')->name('dashboard');
+	
+    Route::livewire('/members', 'pages::members.index')->name('members.index');
+
+    Route::livewire('/wastes', 'pages::wastes.index')->name('wastes.index');
+    Route::livewire('/wastes/{waste}', 'pages::wastes.show')->name('wastes.show');
+
+    Route::livewire('/deposits', 'pages::deposits.index')->name('deposits.index');
+    Route::livewire('/deposits/{deposit}', 'pages::deposits.show')->name('deposits.show');
+
+    Route::livewire('/lots', 'pages::lots.index')->name('lots.index');
+    Route::livewire('/lots/{lot}', 'pages::lots.show')->name('lots.show');
+
+    Route::livewire('/sales', 'pages::sales.index')->name('sales.index');
+    Route::livewire('/sales/{sale}', 'pages::sales.show')->name('sales.show');
+
+    Route::livewire('/withdrawals', 'pages::withdrawals.index')->name('withdrawals.index');
+    Route::livewire('/withdrawals/{withdrawal}', 'pages::withdrawals.show')->name('withdrawals.show');
+
+    Route::livewire('/users', 'pages::users.index')->name('users.index');
+});
+
+Route::prefix('member')->name('member.')->group(function () 
+{
+    Route::livewire('/', 'pages::member.login')->name('login');
+
+    Route::middleware('auth:member')->group(function () {
+
+        Route::livewire('/dashboard', 'pages::member.dashboard')->name('dashboard');
+
+        Route::post('/logout', \App\Http\Controllers\Member\LogoutController::class)
+            ->name('logout');
+
+    });
 });

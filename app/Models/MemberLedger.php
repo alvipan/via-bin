@@ -2,27 +2,67 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\HasTenant;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\MemberLedgerType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-#[Fillable(['tenant_id', 'member_profile_id', 'transaction_type', 'reference_type', 'reference_id', 'amount', 'balance_after'])]
 class MemberLedger extends Model
 {
-    use HasFactory, HasTenant;
+    protected $fillable = [
+        'member_id',
+
+        'type',
+
+        'reference_type',
+        'reference_id',
+
+        'description',
+
+        'debit',
+        'credit',
+        'balance',
+
+        'created_by',
+    ];
 
     protected function casts(): array
     {
         return [
-            'amount' => 'decimal:2',
-            'balance_after' => 'decimal:2',
+            'type' => MemberLedgerType::class,
+            'debit' => 'decimal:2',
+            'credit' => 'decimal:2',
+            'balance' => 'decimal:2',
         ];
     }
 
-    public function memberProfile(): BelongsTo
+    public function member(): BelongsTo
     {
-        return $this->belongsTo(MemberProfile::class);
+        return $this->belongsTo(Member::class);
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function reference(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function amount(): float
+    {
+        return (float) ($this->credit ?: $this->debit);
+    }
+
+    public function isCredit(): bool
+    {
+        return $this->credit > 0;
+    }
+
+    public function isDebit(): bool
+    {
+        return $this->debit > 0;
     }
 }

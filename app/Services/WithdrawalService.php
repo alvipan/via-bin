@@ -2,85 +2,52 @@
 
 namespace App\Services;
 
-use App\Models\MemberProfile;
+use App\Enums\MemberLedgerType;
+use App\Enums\WithdrawalStatus;
+use App\Models\Member;
+use App\Models\MemberLedger;
 use App\Models\Withdrawal;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
-use App\Services\LedgerService;
+use RuntimeException;
 
 class WithdrawalService
 {
-    public function __construct(
-        private readonly LedgerService $ledgerService,
-    ) {}
-
-    /**
-     * @param  array{
-     *     member_profile_id:int,
-     *     approved_by?:int|null,
-     *     reference_number?:string,
-     *     amount:float,
-     *     status?:string
-     * }  $data
-     */
     public function create(array $data): Withdrawal
     {
-        return DB::transaction(function () use ($data): Withdrawal {
-            $memberProfile = MemberProfile::query()->lockForUpdate()->findOrFail($data['member_profile_id']);
-            $amount = (float) $data['amount'];
+        return DB::transaction(function () use ($data) {
 
-            if ($this->ledgerService->currentBalance($memberProfile) < $amount) {
-                throw ValidationException::withMessages([
-                    'amount' => 'Withdrawal amount exceeds member balance.',
-                ]);
+            $member = Member::findOrFail($data['member_id']);
+
+            $amount = $data['amount'];
+
+            if ($member->balance() < $amount) {
+                throw new RuntimeException('Saldo member tidak mencukupi.');
             }
 
             $withdrawal = Withdrawal::create([
-                'tenant_id' => $memberProfile->tenant_id,
-                'member_profile_id' => $memberProfile->id,
-                'approved_by' => $data['approved_by'] ?? null,
-                'reference_number' => $data['reference_number'] ?? $this->makeReferenceNumber(),
-                'amount' => $amount,
-                'status' => $data['status'] ?? 'approved',
+                'member_id'  => $member->id,
+                'amount'     => $amount,
+                'notes'      => $data['notes'] ?? null,
+                'status'     => WithdrawalStatus::Posted,
+                'posted_at'  => now(),
+                'posted_by'  => Auth::id(),
+                'created_by' => Auth::id(),
             ]);
 
-            if ($withdrawal->status === 'approved') {
-                $this->ledgerService->debit($memberProfile, Withdrawal::class, $withdrawal->id, $amount);
-            }
-
-            return $withdrawal->load('memberProfile');
-        });
-    }
-
-    public function approve(Withdrawal $withdrawal, int $approvedBy): Withdrawal
-    {
-        if ($withdrawal->status !== 'pending') {
-            return $withdrawal;
-        }
-
-        return DB::transaction(function () use ($withdrawal, $approvedBy): Withdrawal {
-            $memberProfile = MemberProfile::query()->lockForUpdate()->findOrFail($withdrawal->member_profile_id);
-            $amount = (float) $withdrawal->amount;
-
-            if ($this->ledgerService->currentBalance($memberProfile) < $amount) {
-                throw ValidationException::withMessages([
-                    'amount' => 'Withdrawal amount exceeds member balance.',
-                ]);
-            }
+            $ledger = $this->memberLedgerService->record(
+                memberId: $withdrawal->member_id,
+                type: MemberLedgerType::Withdrawal,
+                reference: $withdrawal,
+                debit: $withdrawal->amount,
+                description: 'Withdrawal',
+            );
 
             $withdrawal->update([
-                'approved_by' => $approvedBy,
-                'status' => 'approved',
+                'member_ledger_id' => $ledger->id,
             ]);
 
-            $this->ledgerService->debit($memberProfile, Withdrawal::class, $withdrawal->id, $amount);
-
-            return $withdrawal->refresh();
+            return $withdrawal->fresh();
         });
-    }
-
-    private function makeReferenceNumber(): string
-    {
-        return 'WDR-'.now()->format('YmdHis');
     }
 }

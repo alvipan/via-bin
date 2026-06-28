@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -14,16 +13,11 @@ use Illuminate\Notifications\Notifiable;
 
 #[Fillable(['via_account_id', 'name', 'email', 'avatar', 'password'])]
 #[Hidden(['password', 'remember_token'])]
+
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -40,13 +34,22 @@ class User extends Authenticatable
     public function tenants(): BelongsToMany
     {
         return $this->belongsToMany(Tenant::class, 'tenant_users')
-            ->using(TenantUser::class)
             ->withPivot(['id', 'role', 'status'])
             ->withTimestamps();
     }
 
-    public function memberProfiles(): HasMany
+    public function members(): HasMany
     {
-        return $this->hasMany(MemberProfile::class);
+        return $this->hasMany(Member::class);
+    }
+
+    public function activeMemberships()
+    {
+        return $this->tenantUsers()
+            ->active()
+            ->whereHas(
+                'tenant',
+                fn ($q) => $q->where('status', 'active')
+            );
     }
 }

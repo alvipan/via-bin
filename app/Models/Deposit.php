@@ -2,50 +2,70 @@
 
 namespace App\Models;
 
+use App\Enums\DepositStatus;
 use App\Models\Concerns\HasTenant;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['tenant_id', 'member_profile_id', 'waste_category_id', 'created_by', 'reference_number', 'quantity', 'unit_price', 'subtotal', 'deposited_at'])]
 class Deposit extends Model
 {
-    use HasFactory, HasTenant;
+    use HasTenant;
+    
+    public const DRAFT = 'draft';
+    public const POSTED = 'posted';
+    public const CANCELLED = 'cancelled';
+
+    protected $fillable = [
+        'tenant_id',
+        'member_id',
+        'deposit_no',
+        'posted_at',
+        'status',
+        'notes',
+        'created_by',
+    ];
 
     protected function casts(): array
     {
         return [
-            'quantity' => 'decimal:3',
-            'unit_price' => 'decimal:2',
-            'subtotal' => 'decimal:2',
-            'deposited_at' => 'datetime',
+            'status' => DepositStatus::class,
+            'posted_at' => 'datetime',
         ];
     }
 
-    public function memberProfile(): BelongsTo
+    public function tenant(): BelongsTo
     {
-        return $this->belongsTo(MemberProfile::class);
+        return $this->belongsTo(Tenant::class);
     }
 
-    public function wasteCategory(): BelongsTo
+    public function member(): BelongsTo
     {
-        return $this->belongsTo(WasteCategory::class);
+        return $this->belongsTo(Member::class);
     }
 
-    public function creator(): BelongsTo
+    public function items(): HasMany
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->hasMany(DepositItem::class);
     }
 
-    public function lot(): HasOne
+    public function isDraft(): bool
     {
-        return $this->hasOne(Lot::class);
+        return $this->status === DepositStatus::Draft;
     }
 
-    public function totalValue(): float
+    public function isPosted(): bool
     {
-        return (float) $this->quantity * (float) $this->unit_price;
+        return $this->status === DepositStatus::Posted;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->status === DepositStatus::Cancelled;
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'deposit_no';
     }
 }

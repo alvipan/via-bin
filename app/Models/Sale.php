@@ -2,26 +2,64 @@
 
 namespace App\Models;
 
+use App\Enums\SaleStatus;
 use App\Models\Concerns\HasTenant;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['tenant_id', 'created_by', 'reference_number', 'buyer_name', 'buyer_type', 'quantity', 'unit_price', 'gross_amount', 'sold_at'])]
 class Sale extends Model
 {
-    use HasFactory, HasTenant;
+    use HasTenant;
+    
+    protected $fillable = [
+        'tenant_id',
+        'sale_no',
+        'sale_date',
+
+        'gross_amount',
+        'operational_percent',
+        'operational_amount',
+        'net_amount',
+
+        'status',
+        'notes',
+
+        'posted_by',
+        'posted_at',
+
+        'created_by',
+    ];
 
     protected function casts(): array
     {
         return [
-            'quantity' => 'decimal:3',
-            'unit_price' => 'decimal:2',
+            'sale_date' => 'date',
+
             'gross_amount' => 'decimal:2',
-            'sold_at' => 'datetime',
+            'operational_percent' => 'decimal:2',
+            'operational_amount' => 'decimal:2',
+            'net_amount' => 'decimal:2',
+
+            'posted_at' => 'datetime',
+
+            'status' => SaleStatus::class,
         ];
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'sale_no';
+    }
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(SaleItem::class);
     }
 
     public function creator(): BelongsTo
@@ -29,8 +67,29 @@ class Sale extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function allocations(): HasMany
+    public function poster(): BelongsTo
     {
-        return $this->hasMany(SaleAllocation::class);
+        return $this->belongsTo(User::class, 'posted_by');
     }
+
+    public function isDraft(): bool
+    {
+        return $this->status === SaleStatus::Draft;
+    }
+
+    public function isPosted(): bool
+    {
+        return $this->status === SaleStatus::Posted;
+    }
+
+    public function scopeDraft($query)
+    {
+        return $query->where('status', SaleStatus::Draft);
+    }
+
+    public function scopePosted($query)
+    {
+        return $query->where('status', SaleStatus::Posted);
+    }
+
 }

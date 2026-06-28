@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Tenant;
+use App\Models\TenantUser;
 use App\Support\TenantContext;
 use Closure;
 use Illuminate\Http\Request;
@@ -13,7 +14,13 @@ class ResolveTenant
 {
     public function handle(Request $request, Closure $next): Response
     {
-        TenantContext::set($this->resolveTenant($request));
+        $tenant = $this->resolveTenant($request);
+
+        $membership = $tenant
+            ? $this->resolveMembership($tenant)
+            : null;
+
+        TenantContext::set($tenant, $membership);
 
         try {
             return $next($request);
@@ -24,12 +31,17 @@ class ResolveTenant
 
     private function resolveTenant(Request $request): ?Tenant
     {
+        if (! Auth::check()) {
+            return null;
+        }
+
         $tenantKey = $request->route('tenant')
             ?? $request->header('X-Tenant')
             ?? $request->session()->get('tenant_id');
 
         if ($tenantKey) {
-            $query = Tenant::query()->where('status', 'active');
+            $query = Tenant::query()
+                ->where('status', 'active');
 
             is_numeric($tenantKey)
                 ? $query->whereKey((int) $tenantKey)
@@ -37,42 +49,26 @@ class ResolveTenant
 
             $tenant = $query->first();
 
-            if ($tenant && $this->userCanAccessTenant($tenant)) {
+            if ($tenant && $this->resolveMembership($tenant)) {
                 $request->session()->put('tenant_id', $tenant->id);
 
                 return $tenant;
             }
         }
 
-        $user = Auth::user();
+        return null;
+    }
 
-        if (! $user) {
+    private function resolveMembership(Tenant $tenant): ?TenantUser
+    {
+        if (! Auth::check()) {
             return null;
         }
 
-        $tenant = $user->tenants()
-            ->wherePivot('status', 'active')
-            ->where('tenants.status', 'active')
+        return TenantUser::query()
+            ->whereBelongsTo($tenant)
+            ->where('user_id', Auth::id())
+            ->active()
             ->first();
-
-        if ($tenant) {
-            $request->session()->put('tenant_id', $tenant->id);
-        }
-
-        return $tenant;
-    }
-
-    private function userCanAccessTenant(Tenant $tenant): bool
-    {
-        $user = Auth::user();
-
-        if (! $user) {
-            return true;
-        }
-
-        return $user->tenants()
-            ->whereKey($tenant->id)
-            ->wherePivot('status', 'active')
-            ->exists();
     }
 }

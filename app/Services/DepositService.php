@@ -2,64 +2,119 @@
 
 namespace App\Services;
 
+use App\Enums\DepositStatus;
+use App\Enums\SequenceType;
+use App\Enums\LotStatus;
 use App\Models\Deposit;
+use App\Models\DepositItem;
+use App\Models\Lot;
+use App\Models\Member;
+use App\Models\Tenant;
 use Illuminate\Support\Facades\DB;
-use App\Services\LedgerService;
-use App\Models\MemberProfile;
+use Illuminate\Validation\ValidationException;
 
 class DepositService
 {
-    public function __construct(
-        private readonly LotService $lotService,
-        private readonly LedgerService $ledgerService,
-    ) {}
-
-    /**
-     * @param  array{
-     *     member_profile_id:int,
-     *     waste_category_id:int,
-     *     created_by:int,
-     *     reference_number?:string,
-     *     quantity:float,
-     *     unit_price:float,
-     *     deposited_at?:mixed
-     * }  $data
-     */
-    public function create(array $data): Deposit
-    {
-        return DB::transaction(function () use ($data): Deposit {
-            $quantity = (float) $data['quantity'];
-            $unitPrice = (float) $data['unit_price'];
-
-            $memberProfile = MemberProfile::query()->findOrFail($data['member_profile_id']);
-
-            $deposit = Deposit::create([
-                'member_profile_id' => $data['member_profile_id'],
-                'waste_category_id' => $data['waste_category_id'],
-                'created_by' => $data['created_by'],
-                'reference_number' => $data['reference_number'] ?? $this->makeReferenceNumber(),
-                'quantity' => $quantity,
-                'unit_price' => $unitPrice,
-                'subtotal' => $quantity * $unitPrice,
-                'status' => 'processed',
-                'deposited_at' => $data['deposited_at'] ?? now(),
+    public function create(
+        Tenant $tenant,
+        Member $member,
+        int $createdBy,
+        ?string $notes = null,
+    ): Deposit {
+        return DB::transaction(function () use (
+            $tenant,
+            $member,
+            $createdBy,
+            $notes
+        ) {
+            return Deposit::create([
+                'tenant_id' => $tenant->id,
+                'member_id' => $member->id,
+                'deposit_no' => SequenceService::nextCode(
+                    tenantId: $tenant->id,
+                    type: SequenceType::DEPOSIT->value,
+                    prefix: 'DEP',
+                ),
+                'status' => DepositStatus::Draft,
+                'notes' => $notes,
+                'created_by' => $createdBy,
             ]);
-
-            $this->lotService->createFromDeposit($deposit);
-
-            $this->ledgerService->credit(
-                $memberProfile,
-                Deposit::class,
-                $deposit->id,
-                $deposit->subtotal,
-            );
-
-            return $deposit->load(['lot', 'memberProfile', 'wasteCategory']);
         });
     }
 
-    private function makeReferenceNumber(): string
+    public function post(
+        Deposit $deposit,
+        int $postedBy,
+    ): void {
+
+        if (! $deposit->isDraft()) {
+            throw ValidationException::withMessages([
+                'deposit' => 'Deposit has already been posted.',
+            ]);
+        }
+
+        DB::transaction(function () use (
+            $deposit,
+            $postedBy
+        ) {
+
+            $deposit->load([
+                'items.wasteType',
+            ]);
+
+            if ($deposit->items->isEmpty()) {
+                throw ValidationException::withMessages([
+                    'deposit' => 'Deposit has no items.',
+                ]);
+            }
+
+            foreach ($deposit->items as $item) {
+                $this->createLot($deposit, $item);
+            }
+
+            $deposit->update([
+                'status' => DepositStatus::Posted,
+                'posted_at' => now(),
+                'posted_by' => $postedBy,
+            ]);
+        });
+    }
+
+    private function createLot(
+        Deposit $deposit,
+        DepositItem $item,
+    ): void {
+        Lot::create([
+            'tenant_id' => $deposit->tenant_id,
+
+            'lot_no' => SequenceService::nextCode(
+                tenantId: $deposit->tenant_id,
+                type: SequenceType::LOT->value,
+                prefix: 'LOT',
+            ),
+
+            'member_id' => $deposit->member_id,
+
+            'deposit_item_id' => $item->id,
+
+            'quantity_received' => $item->quantity,
+
+            'quantity_remaining' => $item->quantity,
+
+            'status' => LotStatus::Open,
+        ]);
+    }
+
+    public function cancel(Deposit $deposit): void
     {
-        return 'DEP-'.now()->format('YmdHis');
+        if (! $deposit->isDraft()) {
+            throw ValidationException::withMessages([
+                'deposit' => 'Deposit has already been posted.',
+            ]);
+        }
+
+        $deposit->update([
+            'status' => DepositStatus::Cancelled,
+        ]);
     }
 }

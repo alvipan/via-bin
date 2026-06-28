@@ -38,6 +38,12 @@ class AuthController
 
         $tokenResponse = $this->authService->exchangeAuthorizationCode($request->input('code'));
 
+        session([
+            'viaaccount_access_token' => $tokenResponse['access_token'],
+            'viaaccount_refresh_token' => $tokenResponse['refresh_token'] ?? null,
+            'viaaccount_expires_at' => now()->addSeconds($tokenResponse['expires_in'] ?? 3600),
+        ]);
+
         if (! isset($tokenResponse['access_token'])) {
             Log::error('ViaAccount callback missing access token', ['response' => $tokenResponse]);
             return redirect()->route('auth.redirect');

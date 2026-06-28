@@ -12,6 +12,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+
+        $middleware->redirectGuestsTo(function (Request $request) {
+
+            if ($request->is('member') || $request->is('member/*')) {
+                return route('member.login');
+            }
+
+            return route('login');
+        });
+
         $middleware->web(append: [
             \App\Http\Middleware\ResolveTenant::class,
         ]);
@@ -24,4 +34,5 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
-    })->create();
+    })
+    ->create();
