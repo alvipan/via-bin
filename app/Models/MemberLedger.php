@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Enums\MemberLedgerType;
+use App\Models\Concerns\HasTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class MemberLedger extends Model
 {
+    use HasTenant;
+    
     protected $fillable = [
         'member_id',
 

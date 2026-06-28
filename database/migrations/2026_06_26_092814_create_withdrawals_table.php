@@ -42,7 +42,6 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->index(['tenant_id', 'date']);
             $table->index(['tenant_id', 'member_id']);
         });
     }

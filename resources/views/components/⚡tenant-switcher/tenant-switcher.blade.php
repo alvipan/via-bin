@@ -7,7 +7,7 @@
             </flux:heading>
 
             <flux:text>
-                {{ membership()->role->label() }}
+                {{ tenant()->tenant_code }}
             </flux:text>
         </div>
         <flux:icon.chevron-down />
