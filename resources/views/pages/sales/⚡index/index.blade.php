@@ -33,7 +33,7 @@
                 </flux:table.column>
 
                 <flux:table.column align="end">
-                    Bruto
+                    Kotor
                 </flux:table.column>
 
                 <flux:table.column align="end">

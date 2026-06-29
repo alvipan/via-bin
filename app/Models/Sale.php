@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Enums\SaleStatus;
+use App\Enums\SequenceType;
 use App\Models\Concerns\HasTenant;
+use App\Services\SequenceService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,16 +37,24 @@ class Sale extends Model
     {
         return [
             'sale_date' => 'date',
-
             'gross_amount' => 'decimal:2',
             'operational_percent' => 'decimal:2',
             'operational_amount' => 'decimal:2',
             'net_amount' => 'decimal:2',
-
             'posted_at' => 'datetime',
-
             'status' => SaleStatus::class,
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Sale $sale) {
+            $sale->sale_no = SequenceService::nextCode(
+                tenantId: $sale->tenant_id,
+                type: SequenceType::Sale->value,
+                prefix: 'SL',
+            );
+        });
     }
 
     public function getRouteKeyName(): string

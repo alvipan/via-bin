@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\SequenceType;
 use App\Enums\DepositStatus;
 use App\Models\Concerns\HasTenant;
+use App\Services\SequenceService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,7 +19,6 @@ class Deposit extends Model
     public const CANCELLED = 'cancelled';
 
     protected $fillable = [
-        'tenant_id',
         'member_id',
         'deposit_no',
         'posted_at',
@@ -32,6 +33,18 @@ class Deposit extends Model
             'status' => DepositStatus::class,
             'posted_at' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Deposit $deposit) {
+
+            $deposit->deposit_no = SequenceService::nextCode(
+                tenantId: $deposit->tenant_id,
+                type: SequenceType::Deposit->value,
+                prefix: 'DP',
+            );
+        });
     }
 
     public function tenant(): BelongsTo

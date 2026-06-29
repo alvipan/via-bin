@@ -56,11 +56,10 @@
             <flux:sidebar.spacer />
 
             <flux:dropdown position="top" align="start" class="max-lg:hidden">
-                <flux:sidebar.profile name="{{ auth()->user()->name }}" />
+                <flux:sidebar.profile size="sm" circle name="{{ auth()->user()->name }}" />
                 <flux:menu>
                     <flux:menu.radio.group>
-                        <flux:menu.radio checked>Olivia Martin</flux:menu.radio>
-                        <flux:menu.radio>Truly Delta</flux:menu.radio>
+                        <flux:menu.radio checked>{{ auth()->user()->name }}</flux:menu.radio>
                     </flux:menu.radio.group>
 
                     <flux:menu.separator />
@@ -69,7 +68,7 @@
                         @csrf
 
                         <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle">
-                            Logout
+                            Keluar
                         </flux:menu.item>
                     </form>
 
@@ -84,7 +83,7 @@
             <flux:spacer />
 
             <flux:dropdown position="top" align="start">
-                <flux:profile icon="user" color="teal" />
+                <flux:avatar size="sm" circle icon="user" />
 
                 <flux:menu>
                     <flux:menu.radio.group>
@@ -97,7 +96,7 @@
                         @csrf
 
                         <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle">
-                            Logout
+                            Keluar
                         </flux:menu.item>
                     </form>
                 </flux:menu>

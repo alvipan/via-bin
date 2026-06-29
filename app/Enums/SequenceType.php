@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum SequenceType: string
 {
-    case MEMBER = 'member';
-    case DEPOSIT = 'deposit';
-    case LOT = 'lot';
-    case SALE = 'sale';
+    case Member = 'member';
+    case Deposit = 'deposit';
+    case Lot = 'lot';
+    case Sale = 'sale';
     case WITHDRAWAL = 'withdrawal';
 }

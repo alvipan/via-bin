@@ -15,12 +15,6 @@ new class extends Component
         $tenant = TenantContext::tenant();
 
         $sale = Sale::create([
-            'tenant_id' => $tenant->id,
-            'sale_no' => SequenceService::nextCode(
-                tenantId: $tenant->id,
-                type: SequenceType::SALE->value,
-                prefix: 'SAL',
-            ),
             'sale_date' => now(),
             'status' => SaleStatus::Draft,
             'operational_percent' => $tenant->setting->operational_fee_percent,

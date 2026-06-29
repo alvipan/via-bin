@@ -212,8 +212,8 @@
             <flux:table>
 
                 <flux:table.columns>
-                    <flux:table.column>Lot</flux:table.column>
-                    <flux:table.column>Sampah</flux:table.column>
+                    <flux:table.column>No</flux:table.column>
+                    <flux:table.column>Jenis</flux:table.column>
                     <flux:table.column>Sisa</flux:table.column>
                 </flux:table.columns>
 

@@ -29,7 +29,7 @@
 
             <div>
                 <flux:text class="font-medium">
-                    Anggota
+                    Penyetor
                 </flux:text>
 
                 <div class="mt-1">
@@ -51,7 +51,7 @@
 
             <div>
                 <flux:text class="font-medium">
-                    Jenis Sampah
+                    Jenis
                 </flux:text>
 
                 <div class="mt-1">
@@ -61,7 +61,7 @@
 
             <div>
                 <flux:text class="font-medium">
-                    Unit
+                    Satuan
                 </flux:text>
 
                 <div class="mt-1">
@@ -86,7 +86,7 @@
 
     <flux:card>
         <flux:heading size="lg">
-            Ringkasan Inventory
+            Ringkasan Inventaris
         </flux:heading>
 
         <div class="mt-6 grid gap-6 md:grid-cols-3">
@@ -94,7 +94,7 @@
             <div>
 
                 <flux:text>
-                    Quantity Diterima
+                    Kuantitas Diterima
                 </flux:text>
 
                 <div class="mt-2 text-xl font-semibold">
@@ -106,7 +106,7 @@
 
             <div>
                 <flux:text>
-                    Quantity Terjual
+                    Kuantitas Terjual
                 </flux:text>
 
                 <div class="mt-2 text-xl font-semibold">
@@ -117,7 +117,7 @@
 
             <div>
                 <flux:text>
-                    Quantity Tersisa
+                    Kuantitas Tersisa
                 </flux:text>
 
                 <div class="mt-2 text-xl font-semibold">
@@ -144,10 +144,10 @@
 
         <flux:table>
             <flux:table.columns>
-                <flux:table.column>No. Sale</flux:table.column>
+                <flux:table.column>No. Penjualan</flux:table.column>
                 <flux:table.column>Tanggal</flux:table.column>
-                <flux:table.column align="end">Quantity</flux:table.column>
                 <flux:table.column>Satuan</flux:table.column>
+                <flux:table.column align="end">Kuantitas</flux:table.column>
                 <flux:table.column align="end">Harga</flux:table.column>
                 <flux:table.column align="end">Subtotal</flux:table.column>
             </flux:table.columns>
@@ -164,12 +164,12 @@
                             {{ $usage->saleItem->sale->posted_at->format('d M Y') }}
                         </flux:table.cell>
 
-                        <flux:table.cell align="end">
-                            {{ number_format($usage->quantity, 3) }}
-                        </flux:table.cell>
-
                         <flux:table.cell>
                             {{ $usage->lot->wasteType->unit->value }}
+                        </flux:table.cell>
+
+                        <flux:table.cell align="end">
+                            {{ number_format($usage->quantity, 3) }}
                         </flux:table.cell>
 
                         <flux:table.cell align="end">

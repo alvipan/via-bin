@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Concerns\HasTenant;
 use App\Enums\SequenceType;
+use App\Models\Concerns\HasTenant;
 use App\Services\SequenceService;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,6 +27,18 @@ class Member extends Authenticatable
         return [
             'is_active' => 'boolean',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Member $member) {
+
+            $member->member_code = SequenceService::nextCode(
+                tenantId: $member->tenant_id,
+                type: SequenceType::Member->value,
+                prefix: 'MB',
+            );
+        });
     }
 
     public function tenant()
@@ -59,18 +71,6 @@ class Member extends Authenticatable
                     ->orWhere('name', 'like', "%{$search}%")
                     ->orWhere('phone', 'like', "%{$search}%");
             });
-        });
-    }
-
-    protected static function booted(): void
-    {
-        static::creating(function (Member $member) {
-
-            $member->member_code = SequenceService::nextCode(
-                tenantId: $member->tenant_id,
-                type: SequenceType::MEMBER->value,
-                prefix: 'MB',
-            );
         });
     }
 }

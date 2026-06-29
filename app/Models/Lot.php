@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\SequenceType;
 use App\Enums\LotStatus;
 use App\Models\Concerns\HasTenant;
+use App\Services\SequenceService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,6 +31,17 @@ class Lot extends Model
             'quantity_remaining' => 'decimal:3',
             'status' => LotStatus::class,
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Lot $lot) {
+            $lot->lot_no = SequenceService::nextCode(
+                tenantId: $lot->tenant_id,
+                type: SequenceType::Lot->value,
+                prefix: 'LT',
+            );
+        });
     }
 
     public function member(): BelongsTo

@@ -4,38 +4,61 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>ViaBin - Platform Digital Bank Sampah</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
 
-    <body class="bg-slate-50 text-slate-800">
+    <body class="bg-zinc-50 text-zinc-900">
 
-        <!-- Header -->
-        <header class="sticky top-0 z-50 border-b bg-white/90 backdrop-blur">
+        {{-- Header --}}
+        <header class="sticky top-0 z-50 border-b border-zinc-200 bg-white/90 backdrop-blur">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
 
-                <div>
-                    <h1 class="text-2xl font-bold text-emerald-600">
-                        ViaBin
-                    </h1>
+                <div class="flex items-center gap-3">
+                    <div class="rounded-xl bg-emerald-100 p-2">
+                        <flux:icon.arrow-path class="size-6 text-emerald-600" />
+                    </div>
+
+                    <div>
+                        <h1 class="text-xl font-bold">
+                            ViaBin
+                        </h1>
+
+                        <p class="text-sm text-zinc-500">
+                            Platform Digital Bank Sampah
+                        </p>
+                    </div>
                 </div>
 
-                <a href="{{ route('login') }}"
-                    class="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700">
-                    Login
-                </a>
+                @auth
+                    <flux:button :href="route('dashboard')" variant="primary">
+                        Dashboard
+                    </flux:button>
+                @else
+                    <flux:button :href="route('login')" variant="primary">
+                        Masuk
+                    </flux:button>
+                @endauth
 
             </div>
         </header>
 
-        <!-- Hero -->
-        <section class="py-24">
+        {{-- Hero --}}
+        <section class="py-28">
             <div class="mx-auto max-w-5xl px-6 text-center">
 
-                <span class="rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-700">
-                    🌱 Platform Digital Bank Sampah
-                </span>
+                <div
+                    class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2">
+
+                    <flux:icon.arrow-path class="size-4 text-emerald-600" />
+
+                    <span class="text-sm font-medium text-emerald-700">
+                        Platform Digital Bank Sampah
+                    </span>
+
+                </div>
 
                 <h2 class="mt-8 text-5xl font-bold leading-tight">
                     Kelola
@@ -43,50 +66,51 @@
                         Bank Sampah
                     </span>
                     dengan lebih mudah,
-                    transparan, dan modern.
+                    transparan,
+                    dan modern.
                 </h2>
 
-                <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-                    ViaBin membantu pengelola Bank Sampah dalam mengelola member,
-                    pencatatan setoran sampah, tabungan, serta program investasi
-                    dan pembagian profit dalam satu sistem yang terintegrasi.
+                <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-zinc-600">
+                    ViaBin membantu pengelola Bank Sampah mengelola member,
+                    transaksi setoran, tabungan,
+                    hingga pembagian profit dalam satu sistem yang terintegrasi.
                 </p>
 
                 <div class="mt-10">
-                    <a href="{{ route('login') }}"
-                        class="rounded-xl bg-emerald-600 px-8 py-4 font-semibold text-white transition hover:bg-emerald-700">
-                        Login Member
-                    </a>
+                    <flux:button :href="route('login')" variant="primary">
+                        Mulai Sekarang
+                    </flux:button>
                 </div>
 
             </div>
         </section>
 
-        <!-- Tentang -->
-        <section class="bg-white py-20">
-            <div class="mx-auto max-w-5xl px-6">
+        {{-- Tentang --}}
+        <section class="border-y border-zinc-200 bg-white py-20">
 
-                <div class="text-center">
+            <div class="mx-auto max-w-5xl px-6 text-center">
 
-                    <h3 class="text-3xl font-bold">
-                        Apa itu ViaBin?
-                    </h3>
+                <h3 class="text-3xl font-bold">
+                    Apa itu ViaBin?
+                </h3>
 
-                    <p class="mx-auto mt-6 max-w-4xl text-lg leading-8 text-slate-600">
-                        ViaBin adalah platform digital yang dirancang untuk membantu
-                        operasional Bank Sampah menjadi lebih efisien dan transparan.
-                        Seluruh aktivitas mulai dari data member, setoran sampah,
-                        tabungan, hingga investasi dapat dikelola dalam satu dashboard
-                        yang mudah digunakan.
-                    </p>
-
-                </div>
+                <p class="mx-auto mt-6 max-w-4xl text-lg leading-8 text-zinc-600">
+                    ViaBin merupakan platform digital yang dirancang untuk
+                    membantu operasional Bank Sampah menjadi lebih efisien,
+                    transparan, dan mudah digunakan.
+                    Seluruh aktivitas mulai dari data member,
+                    transaksi setoran,
+                    tabungan,
+                    hingga profit dapat dikelola dalam satu dashboard.
+                </p>
 
             </div>
+
         </section>
 
-        <!-- Cara Kerja -->
+        {{-- Cara Kerja --}}
         <section class="py-20">
+
             <div class="mx-auto max-w-6xl px-6">
 
                 <div class="text-center">
@@ -95,91 +119,70 @@
                         Cara Kerja
                     </h3>
 
-                    <p class="mt-3 text-slate-600">
-                        Alur sederhana dalam pengelolaan Bank Sampah.
+                    <p class="mt-3 text-zinc-600">
+                        Alur sederhana pengelolaan Bank Sampah.
                     </p>
 
                 </div>
 
-                <div class="mt-14 grid gap-6 md:grid-cols-5">
+                <div class="mt-14 grid gap-6 md:grid-cols-4">
 
-                    <div class="rounded-2xl bg-white p-6 shadow-sm">
+                    <flux:card>
+                        <flux:icon.archive-box class="size-10 text-emerald-600" />
 
-                        <div class="text-4xl">♻️</div>
-
-                        <h4 class="mt-4 font-semibold">
+                        <h4 class="mt-5 font-semibold">
                             Setor Sampah
                         </h4>
 
-                        <p class="mt-2 text-sm text-slate-600">
+                        <p class="mt-2 text-sm text-zinc-600">
                             Member menyetorkan sampah yang telah dipilah.
                         </p>
+                    </flux:card>
 
-                    </div>
+                    <flux:card>
+                        <flux:icon.scale class="size-10 text-emerald-600" />
 
-                    <div class="rounded-2xl bg-white p-6 shadow-sm">
-
-                        <div class="text-4xl">⚖️</div>
-
-                        <h4 class="mt-4 font-semibold">
+                        <h4 class="mt-5 font-semibold">
                             Penimbangan
                         </h4>
 
-                        <p class="mt-2 text-sm text-slate-600">
+                        <p class="mt-2 text-sm text-zinc-600">
                             Sampah ditimbang dan dicatat ke sistem.
                         </p>
+                    </flux:card>
 
-                    </div>
+                    <flux:card>
+                        <flux:icon.wallet class="size-10 text-emerald-600" />
 
-                    <div class="rounded-2xl bg-white p-6 shadow-sm">
-
-                        <div class="text-4xl">💰</div>
-
-                        <h4 class="mt-4 font-semibold">
+                        <h4 class="mt-5 font-semibold">
                             Tabungan
                         </h4>
 
-                        <p class="mt-2 text-sm text-slate-600">
-                            Nilai sampah menjadi saldo tabungan member.
+                        <p class="mt-2 text-sm text-zinc-600">
+                            Nilai transaksi otomatis menjadi saldo tabungan.
                         </p>
+                    </flux:card>
 
-                    </div>
+                    <flux:card>
+                        <flux:icon.presentation-chart-line class="size-10 text-emerald-600" />
 
-                    <div class="rounded-2xl bg-white p-6 shadow-sm">
-
-                        <div class="text-4xl">📦</div>
-
-                        <h4 class="mt-4 font-semibold">
-                            Investasi
-                        </h4>
-
-                        <p class="mt-2 text-sm text-slate-600">
-                            Saldo dapat digunakan mengikuti program investasi.
-                        </p>
-
-                    </div>
-
-                    <div class="rounded-2xl bg-white p-6 shadow-sm">
-
-                        <div class="text-4xl">📈</div>
-
-                        <h4 class="mt-4 font-semibold">
+                        <h4 class="mt-5 font-semibold">
                             Profit
                         </h4>
 
-                        <p class="mt-2 text-sm text-slate-600">
+                        <p class="mt-2 text-sm text-zinc-600">
                             Profit dan saldo dapat dipantau secara transparan.
                         </p>
-
-                    </div>
+                    </flux:card>
 
                 </div>
 
             </div>
+
         </section>
 
-        <!-- Fitur -->
-        <section class="bg-white py-20">
+        {{-- Fitur --}}
+        <section class="border-y border-zinc-200 bg-white py-20">
 
             <div class="mx-auto max-w-6xl px-6">
 
@@ -189,7 +192,7 @@
                         Fitur Utama
                     </h3>
 
-                    <p class="mt-3 text-slate-600">
+                    <p class="mt-3 text-zinc-600">
                         Semua kebutuhan operasional Bank Sampah dalam satu platform.
                     </p>
 
@@ -197,47 +200,77 @@
 
                 <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-                    <div class="rounded-xl border bg-white p-6">
-                        <h4 class="font-semibold">👥 Manajemen Member</h4>
-                        <p class="mt-3 text-sm text-slate-600">
+                    <flux:card>
+                        <flux:icon.users class="size-8 text-emerald-600" />
+
+                        <h4 class="mt-4 font-semibold">
+                            Manajemen Member
+                        </h4>
+
+                        <p class="mt-2 text-sm text-zinc-600">
                             Kelola data seluruh member dengan mudah.
                         </p>
-                    </div>
+                    </flux:card>
 
-                    <div class="rounded-xl border bg-white p-6">
-                        <h4 class="font-semibold">♻️ Setoran Sampah</h4>
-                        <p class="mt-3 text-sm text-slate-600">
+                    <flux:card>
+                        <flux:icon.archive-box class="size-8 text-emerald-600" />
+
+                        <h4 class="mt-4 font-semibold">
+                            Setoran Sampah
+                        </h4>
+
+                        <p class="mt-2 text-sm text-zinc-600">
                             Pencatatan transaksi setoran yang cepat dan akurat.
                         </p>
-                    </div>
+                    </flux:card>
 
-                    <div class="rounded-xl border bg-white p-6">
-                        <h4 class="font-semibold">💰 Tabungan Member</h4>
-                        <p class="mt-3 text-sm text-slate-600">
-                            Saldo tabungan tercatat otomatis.
+                    <flux:card>
+                        <flux:icon.wallet class="size-8 text-emerald-600" />
+
+                        <h4 class="mt-4 font-semibold">
+                            Tabungan Member
+                        </h4>
+
+                        <p class="mt-2 text-sm text-zinc-600">
+                            Saldo tabungan tercatat secara otomatis.
                         </p>
-                    </div>
+                    </flux:card>
 
-                    <div class="rounded-xl border bg-white p-6">
-                        <h4 class="font-semibold">📦 Investasi</h4>
-                        <p class="mt-3 text-sm text-slate-600">
+                    <flux:card>
+                        <flux:icon.cube class="size-8 text-emerald-600" />
+
+                        <h4 class="mt-4 font-semibold">
+                            Investasi
+                        </h4>
+
+                        <p class="mt-2 text-sm text-zinc-600">
                             Program investasi berbasis saldo tabungan.
                         </p>
-                    </div>
+                    </flux:card>
 
-                    <div class="rounded-xl border bg-white p-6">
-                        <h4 class="font-semibold">📈 Profit Sharing</h4>
-                        <p class="mt-3 text-sm text-slate-600">
+                    <flux:card>
+                        <flux:icon.presentation-chart-line class="size-8 text-emerald-600" />
+
+                        <h4 class="mt-4 font-semibold">
+                            Profit Sharing
+                        </h4>
+
+                        <p class="mt-2 text-sm text-zinc-600">
                             Pembagian keuntungan yang transparan.
                         </p>
-                    </div>
+                    </flux:card>
 
-                    <div class="rounded-xl border bg-white p-6">
-                        <h4 class="font-semibold">📊 Dashboard</h4>
-                        <p class="mt-3 text-sm text-slate-600">
+                    <flux:card>
+                        <flux:icon.squares-2x2 class="size-8 text-emerald-600" />
+
+                        <h4 class="mt-4 font-semibold">
+                            Dashboard
+                        </h4>
+
+                        <p class="mt-2 text-sm text-zinc-600">
                             Pantau seluruh aktivitas secara real-time.
                         </p>
-                    </div>
+                    </flux:card>
 
                 </div>
 
@@ -245,7 +278,7 @@
 
         </section>
 
-        <!-- CTA -->
+        {{-- CTA --}}
         <section class="py-24">
 
             <div class="mx-auto max-w-4xl px-6 text-center">
@@ -254,17 +287,16 @@
                     Digitalisasi Bank Sampah Dimulai dari Sini
                 </h3>
 
-                <p class="mt-6 text-lg text-slate-600">
-                    ViaBin hadir untuk membantu pengelolaan Bank Sampah menjadi
-                    lebih modern, efisien, dan transparan bagi pengelola maupun member.
+                <p class="mt-6 text-lg text-zinc-600">
+                    ViaBin membantu operasional Bank Sampah menjadi lebih modern,
+                    efisien, dan transparan bagi pengelola maupun member.
                 </p>
 
                 <div class="mt-10">
 
-                    <a href="{{ route('login') }}"
-                        class="rounded-xl bg-emerald-600 px-8 py-4 font-semibold text-white transition hover:bg-emerald-700">
-                        Login Member
-                    </a>
+                    <flux:button :href="route('login')" variant="primary">
+                        Mulai Sekarang
+                    </flux:button>
 
                 </div>
 
@@ -272,10 +304,10 @@
 
         </section>
 
-        <!-- Footer -->
-        <footer class="border-t bg-white">
+        {{-- Footer --}}
+        <footer class="border-t border-zinc-200 bg-white">
 
-            <div class="mx-auto max-w-7xl px-6 py-8 text-center text-sm text-slate-500">
+            <div class="mx-auto max-w-7xl px-6 py-8 text-center text-sm text-zinc-500">
 
                 © {{ date('Y') }} ViaBin · Platform Digital Bank Sampah
 

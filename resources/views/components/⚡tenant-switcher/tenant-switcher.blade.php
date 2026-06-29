@@ -10,7 +10,7 @@
                 {{ tenant()->tenant_code }}
             </flux:text>
         </div>
-        <flux:icon.chevron-down />
+        <flux:icon.chevron-down variant="mini" />
     </button>
 
     <flux:menu>

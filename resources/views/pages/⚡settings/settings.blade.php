@@ -2,11 +2,11 @@
 
     <div>
         <flux:heading size="xl">
-            Tenant Settings
+            Pengaturan Bank Sampah
         </flux:heading>
 
         <flux:text class="mt-2">
-            Configure tenant operational settings.
+            Pengaturan bank sampah dan operasional.
         </flux:text>
     </div>
 
@@ -15,11 +15,11 @@
         <div class="space-y-6">
 
             <flux:input wire:model="operationalFeePercent" type="number" step="0.01" min="0" max="100"
-                label="Operational Fee (%)" />
+                label="Biaya Operasional (%)" />
 
             <div class="flex justify-end">
                 <flux:button variant="primary" wire:click="save">
-                    Save
+                    Simpan
                 </flux:button>
             </div>
 

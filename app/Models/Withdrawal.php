@@ -6,7 +6,6 @@ use App\Enums\SequenceType;
 use App\Enums\WithdrawalStatus;
 use App\Models\Concerns\HasTenant;
 use App\Services\SequenceService;
-use App\Support\TenantContext;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -37,13 +36,12 @@ class Withdrawal extends Model
     protected static function booted(): void
     {
         static::creating(function (Withdrawal $withdrawal): void {
-            if (blank($withdrawal->withdrawal_no)) {
-                $withdrawal->withdrawal_no = SequenceService::nextCode(
-                    TenantContext::id(),
-                    SequenceType::WITHDRAWAL->value,
-                    'WD',
-                );
-            }
+
+            $withdrawal->withdrawal_no = SequenceService::nextCode(
+                tenantId: $withdrawal->tenant_id,
+                type: SequenceType::WITHDRAWAL->value,
+                prefix: 'WD',
+            );
         });
     }
 

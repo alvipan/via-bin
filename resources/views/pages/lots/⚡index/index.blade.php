@@ -51,7 +51,7 @@
                 </flux:table.column>
 
                 <flux:table.column>
-                    Anggota
+                    Penyetor
                 </flux:table.column>
 
                 <flux:table.column>

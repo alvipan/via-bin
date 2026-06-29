@@ -11,9 +11,33 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 #[Fillable(['name', 'slug', 'status'])]
+
 class Tenant extends Model
 {
     use HasFactory;
+
+    protected static function booted(): void
+    {
+        static::creating(function (Tenant $tenant) {
+            if ($tenant->tenant_code) {
+                return;
+            }
+
+            $next = DB::transaction(function () {
+                $last = self::query()
+                    ->lockForUpdate()
+                    ->max(DB::raw('CAST(SUBSTRING(tenant_code, 3) AS UNSIGNED)'));
+
+                return ($last ?? 0) + 1;
+            });
+
+            $tenant->tenant_code = 'BS' . str_pad($next, 3, '0', STR_PAD_LEFT);
+        });
+
+        static::created(function (Tenant $tenant) {
+            $tenant->setting()->create();
+        });
+    }
 
     public function tenantUsers(): HasMany
     {
@@ -60,28 +84,5 @@ class Tenant extends Model
     public function setting(): HasOne
     {
         return $this->hasOne(TenantSetting::class);
-    }
-
-    protected static function booted(): void
-    {
-        static::creating(function (Tenant $tenant) {
-            if ($tenant->tenant_code) {
-                return;
-            }
-
-            $next = DB::transaction(function () {
-                $last = self::query()
-                    ->lockForUpdate()
-                    ->max(DB::raw('CAST(SUBSTRING(tenant_code, 3) AS UNSIGNED)'));
-
-                return ($last ?? 0) + 1;
-            });
-
-            $tenant->tenant_code = 'BS' . str_pad($next, 4, '0', STR_PAD_LEFT);
-        });
-
-        static::created(function (Tenant $tenant) {
-            $tenant->setting()->create();
-        });
     }
 }

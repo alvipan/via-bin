@@ -28,13 +28,7 @@ class DepositService
             $notes
         ) {
             return Deposit::create([
-                'tenant_id' => $tenant->id,
                 'member_id' => $member->id,
-                'deposit_no' => SequenceService::nextCode(
-                    tenantId: $tenant->id,
-                    type: SequenceType::DEPOSIT->value,
-                    prefix: 'DEP',
-                ),
                 'status' => DepositStatus::Draft,
                 'notes' => $notes,
                 'created_by' => $createdBy,
@@ -86,21 +80,10 @@ class DepositService
     ): void {
         Lot::create([
             'tenant_id' => $deposit->tenant_id,
-
-            'lot_no' => SequenceService::nextCode(
-                tenantId: $deposit->tenant_id,
-                type: SequenceType::LOT->value,
-                prefix: 'LOT',
-            ),
-
             'member_id' => $deposit->member_id,
-
             'deposit_item_id' => $item->id,
-
             'quantity_received' => $item->quantity,
-
             'quantity_remaining' => $item->quantity,
-
             'status' => LotStatus::Open,
         ]);
     }

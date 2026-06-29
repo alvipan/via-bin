@@ -13,28 +13,26 @@
             </flux:text>
         </div>
 
-        <div class="flex items-center gap-2">
-
-            <flux:badge color="{{ $sale->status->color() }}">
-                {{ $sale->status->label() }}
-            </flux:badge>
-
-            @if ($sale->status === \App\Enums\SaleStatus::Draft)
-                <flux:button variant="primary" wire:click="confirmPost">
-                    Terbitkan
-                </flux:button>
-            @endif
-
-        </div>
+        @if ($sale->status === \App\Enums\SaleStatus::Draft)
+            <flux:button variant="primary" wire:click="confirmPost">
+                Terbitkan
+            </flux:button>
+        @endif
 
     </div>
 
     {{-- SALE INFO --}}
     <flux:card>
 
-        <flux:heading>
-            Informasi Penjualan
-        </flux:heading>
+        <div class="flex items-center justify-between">
+            <flux:heading>
+                Informasi Penjualan
+            </flux:heading>
+
+            <flux:badge color="{{ $sale->status->color() }}">
+                {{ $sale->status->label() }}
+            </flux:badge>
+        </div>
 
         <div class="mt-6 grid gap-6 md:grid-cols-2">
 
@@ -116,8 +114,9 @@
 
                 <flux:table.columns>
 
-                    <flux:table.column>Jenis Sampah</flux:table.column>
-                    <flux:table.column align="end">Quantity</flux:table.column>
+                    <flux:table.column>Jenis</flux:table.column>
+                    <flux:table.column>Satuan</flux:table.column>
+                    <flux:table.column align="end">Kuantitas</flux:table.column>
                     <flux:table.column align="end">Harga Satuan</flux:table.column>
                     <flux:table.column align="end">Subtotal</flux:table.column>
 
@@ -134,6 +133,10 @@
 
                             <flux:table.cell class="font-medium">
                                 {{ $item->wasteType->name }}
+                            </flux:table.cell>
+
+                            <flux:table.cell align="end">
+                                {{ $item->wasteType->unit->value }}
                             </flux:table.cell>
 
                             <flux:table.cell align="end">
@@ -207,7 +210,7 @@
                 {{ $editingItemId ? 'Edit Item' : 'Tambah Item' }}
             </flux:heading>
 
-            <flux:select wire:model.live="wasteTypeId" label="Waste Type">
+            <flux:select wire:model.live.debounce.300="wasteTypeId" label="Jenis">
 
                 <option value="">Pilih jenis sampah</option>
 
@@ -231,7 +234,7 @@
 
             <flux:field>
 
-                <flux:label>Quantity</flux:label>
+                <flux:label>Kuantitas</flux:label>
 
                 <flux:input.group>
 
@@ -269,7 +272,7 @@
                 </div>
             </div>
 
-            <flux:textarea wire:model="notes" label="Notes" rows="3" />
+            <flux:textarea wire:model="notes" label="Catatan" rows="3" />
 
             <div class="flex justify-end gap-2">
 

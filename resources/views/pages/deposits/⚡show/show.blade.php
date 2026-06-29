@@ -32,7 +32,7 @@
 
             <div>
                 <flux:text class="font-medium">
-                    Anggota
+                    Penyetor
                 </flux:text>
 
                 <div class="mt-1">
@@ -104,11 +104,11 @@
                 </flux:table.column>
 
                 <flux:table.column>
-                    Unit
+                    Satuan
                 </flux:table.column>
 
                 <flux:table.column>
-                    Quantity
+                    Kuantitas
                 </flux:table.column>
 
                 <flux:table.column>
@@ -230,7 +230,7 @@
             <flux:field>
 
                 <flux:label>
-                    Quantity
+                    Kuantitas
                 </flux:label>
 
                 <flux:input.group>
@@ -345,7 +345,7 @@
                 </div>
 
                 <div>
-                    <flux:heading>Quantity:</flux:heading>
+                    <flux:heading>Kuantitas:</flux:heading>
                     <flux:text>
                         {{ number_format($deletingItem?->quantity, 3) }}
                         {{ $deletingItem?->wasteType->unit->value }}
