@@ -1,4 +1,4 @@
-<div class="space-y-6">
+<div class="space-y-4">
 
     {{-- Header --}}
     <div class="flex items-center justify-between">
@@ -18,25 +18,25 @@
     {{-- KPI --}}
     <div class="grid gap-4 lg:grid-cols-4">
 
-        <flux:card>
+        <flux:card class="bg-gradient-to-r from-teal-500 to-teal-300">
 
-            <flux:text class="text-zinc-500">
-                Total Anggota
+            <flux:text class="text-zinc-100">
+                Saldo Bank Sampah
             </flux:text>
 
-            <flux:heading size="xl" class="mt-2">
-                {{ number_format($totalMembers) }}
+            <flux:heading size="xl" class="text-white">
+                Rp {{ number_format($tenantBalance, 0, ',', '.') }}
             </flux:heading>
 
         </flux:card>
 
-        <flux:card>
+        <flux:card class="bg-gradient-to-r from-blue-500 to-blue-300">
 
-            <flux:text class="text-zinc-500">
+            <flux:text class="text-zinc-100">
                 Saldo Anggota
             </flux:text>
 
-            <flux:heading size="xl" class="mt-2">
+            <flux:heading size="xl" class="text-white">
                 Rp {{ number_format($totalMemberBalance, 0, ',', '.') }}
             </flux:heading>
 
@@ -45,10 +45,10 @@
         <flux:card>
 
             <flux:text class="text-zinc-500">
-                Lots Open
+                Lot Aktif
             </flux:text>
 
-            <flux:heading size="xl" class="mt-2">
+            <flux:heading size="xl">
                 {{ number_format($openLots) }}
             </flux:heading>
 
@@ -60,7 +60,7 @@
                 Stok Aktif
             </flux:text>
 
-            <flux:heading size="xl" class="mt-2">
+            <flux:heading size="xl">
                 {{ number_format($activeStock, 3, ',', '.') }} Kg
             </flux:heading>
 
@@ -70,17 +70,17 @@
 
     <div class="grid gap-4 lg:grid-cols-4">
 
-        <flux:card>
+    <flux:card>
 
-            <flux:text class="text-zinc-500">
-                Saldo Bank Sampah
-            </flux:text>
+        <flux:text class="text-zinc-500">
+            Total Anggota
+        </flux:text>
 
-            <flux:heading size="xl" class="mt-2">
-                Rp {{ number_format($tenantBalance, 0, ',', '.') }}
-            </flux:heading>
+        <flux:heading size="xl">
+            {{ number_format($totalMembers) }}
+        </flux:heading>
 
-        </flux:card>
+    </flux:card>
 
         <flux:card>
 
@@ -88,7 +88,7 @@
                 Setoran Hari Ini
             </flux:text>
 
-            <flux:heading size="xl" class="mt-2">
+            <flux:heading size="xl">
                 {{ number_format($todayDeposits) }}
             </flux:heading>
 
@@ -100,7 +100,7 @@
                 Penjualan Hari Ini
             </flux:text>
 
-            <flux:heading size="xl" class="mt-2">
+            <flux:heading size="xl">
                 {{ number_format($todaySales) }}
             </flux:heading>
 
@@ -112,7 +112,7 @@
                 Pencairan Hari Ini
             </flux:text>
 
-            <flux:heading size="xl" class="mt-2">
+            <flux:heading size="xl">
                 {{ number_format($todayWithdrawals) }}
             </flux:heading>
 
@@ -121,7 +121,7 @@
     </div>
 
     {{-- Aktivitas Terbaru --}}
-    <div class="grid gap-6 xl:grid-cols-2">
+    <div class="grid gap-4 xl:grid-cols-2">
 
         {{-- Setoran Terbaru --}}
         <flux:card>

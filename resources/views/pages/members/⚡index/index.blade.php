@@ -1,6 +1,6 @@
 <div class="space-y-6">
 
-    <div class="flex flex-col gap-2 lg:flex-row lg:items-center">
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
         <div class="flex-1">
             <flux:heading size="xl">Anggota</flux:heading>
             <flux:text>

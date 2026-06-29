@@ -11,7 +11,7 @@
                     </flux:heading>
 
                     <flux:text class="text-xs">
-                        Code: {{ $member->member_code }}
+                        {{ $member->member_code }}
                     </flux:text>
                 </div>
 
@@ -33,12 +33,12 @@
 
                         <flux:menu>
 
-                            <flux:menu.item wire:click="$dispatch('member-edit', { id: {{ $member->id }} })">
+                            <flux:menu.item wire:click="edit({{ $member->id }})">
                                 Edit
                             </flux:menu.item>
 
                             <flux:menu.item variant="danger"
-                                wire:click="$dispatch('member-delete', { id: {{ $member->id }} })">
+                                wire:click="confirmDelete({{ $member->id }})">
                                 Delete
                             </flux:menu.item>
 

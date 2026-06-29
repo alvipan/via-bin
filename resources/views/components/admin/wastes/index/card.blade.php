@@ -14,8 +14,9 @@
                     @else
                         <flux:badge color="zinc" size="sm">Nonaktif</flux:badge>
                     @endif
-                    <flux:dropdown position="bottom" align="end">
-                        <flux:button variant="ghost" size="sm" icon="ellipsis-vertical" inset="top bottom" />
+
+                    <flux:dropdown>
+                        <flux:button variant="ghost" size="sm" icon="ellipsis-vertical"/>
 
                         <flux:menu>
                             <flux:menu.item :href="route('wastes.show', $waste)" wire:navigate>
@@ -40,7 +41,7 @@
 
             <!-- Konten Utama: Detail Informasi -->
             <flux:callout>
-                <div class="grid grid-cols-3 gap-2">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                     <div>
                         <span class="block text-xs text-zinc-400">Satuan</span>
                         <span class="font-medium text-zinc-700 dark:text-zinc-300">{{ $waste->unit }}</span>
