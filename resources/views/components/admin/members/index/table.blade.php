@@ -47,24 +47,16 @@
 
                     <flux:table.cell align="end">
 
-                        <flux:dropdown>
+                        <div class="flex justify-end gap-2">
+                            <flux:button size="sm" wire:click="edit('{{ $member->id }}')">
+                                Edit
+                            </flux:button>
 
-                            <flux:button variant="ghost" icon="ellipsis-horizontal" />
-
-                            <flux:menu>
-
-                                <flux:menu.item wire:click="$dispatch('member-edit', { id: {{ $member->id }} })">
-                                    Edit
-                                </flux:menu.item>
-
-                                <flux:menu.item variant="danger"
-                                    wire:click="$dispatch('member-delete', { id: {{ $member->id }} })">
-                                    Delete
-                                </flux:menu.item>
-
-                            </flux:menu>
-
-                        </flux:dropdown>
+                            <flux:button size="sm" variant="danger"
+                                wire:click="confirmDelete('{{ $member->id }}')">
+                                Hapus
+                            </flux:button>
+                        </div>
 
                     </flux:table.cell>
 

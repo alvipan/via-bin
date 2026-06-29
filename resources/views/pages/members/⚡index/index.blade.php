@@ -17,7 +17,13 @@
         </div>
     </div>
 
-    <livewire:members.index.content :search="$search" lazy />
+    <div class="hidden md:block">
+        @include('components.admin.members.index.table')
+    </div>
+
+    <div class="md:hidden">
+        @include('components.admin.members.index.card')
+    </div>
 
     <flux:modal name="member-form" class="w-64">
 

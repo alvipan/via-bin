@@ -8,7 +8,6 @@ use App\Models\Concerns\AuthorizesTenant;
 use Flux\Flux;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\On;
 
 new class extends Component
 {
@@ -35,7 +34,6 @@ new class extends Component
         Flux::modal('member-form')->show();
     }
 
-    #[On('member-edit')]
     public function edit($id): void
     {
         $member = Member::findOrFail($id);
@@ -70,10 +68,9 @@ new class extends Component
         );
 
         $this->resetForm();
-        $this->dispatch('member-reload');
+        $this->dispatch('member-updated');
     }
 
-    #[On('member-delete')]
     public function confirmDelete($id): void
     {
         $this->memberId = $id;
@@ -92,7 +89,7 @@ new class extends Component
         );
 
         $this->resetForm();
-        $this->dispatch('member-reload');
+        $this->dispatch('member-updated');
     }
 
     protected function resetForm(): void
