@@ -107,7 +107,7 @@
 
     {{ $withdrawals->links() }}
 
-    <flux:modal class="w-sm" wire:model="showModal">
+    <flux:modal class="w-sm" wire:model="showModal" class="w-64">
 
         <div class="space-y-6">
 

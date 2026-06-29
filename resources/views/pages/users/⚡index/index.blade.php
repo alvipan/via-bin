@@ -103,7 +103,7 @@
     </flux:card>
 
     {{-- Modal: Create/Edit --}}
-    <flux:modal wire:model="showFormModal" class="w-sm">
+    <flux:modal wire:model="showFormModal" class="w-64">
 
         <div class="space-y-4">
 

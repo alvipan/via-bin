@@ -98,7 +98,7 @@
 
     </flux:card>
 
-    <flux:modal wire:model="createModal" class="w-sm">
+    <flux:modal wire:model="createModal" class="w-64">
 
         <div class="space-y-4">
 

@@ -152,7 +152,7 @@
 
     {{-- Modal --}}
 
-    <flux:modal wire:model="modal">
+    <flux:modal wire:model="modal" class="w-64">
 
         <div class="space-y-4">
 

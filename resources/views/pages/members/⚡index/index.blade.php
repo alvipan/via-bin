@@ -19,7 +19,7 @@
 
     <livewire:members.index.content :search="$search" lazy />
 
-    <flux:modal name="member-form" class="w-sm">
+    <flux:modal name="member-form" class="w-64">
 
         <div class="space-y-4">
 
@@ -54,7 +54,7 @@
 
     </flux:modal>
 
-    <flux:modal name="delete-member" class="w-sm">
+    <flux:modal name="delete-member" class="w-64">
 
         <div class="space-y-4">
 
