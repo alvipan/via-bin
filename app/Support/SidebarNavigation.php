@@ -61,7 +61,7 @@ class SidebarNavigation
                         'module' => TenantModule::Sales,
                     ],
                     [
-                        'label' => 'Pencairan',
+                        'label' => 'Penarikan',
                         'icon' => 'arrow-up-tray',
                         'route' => 'withdrawals.index',
                         'active' => 'withdrawals.*',

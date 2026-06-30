@@ -13,13 +13,21 @@ use RuntimeException;
 
 class WithdrawalService
 {
+    public function __construct(
+        protected MemberLedgerService $memberLedgerService,
+    ) {}
+
     public function create(array $data): Withdrawal
     {
         return DB::transaction(function () use ($data) {
 
-            $member = Member::findOrFail($data['member_id']);
+            $member = Member::lockForUpdate()->findOrFail($data['member_id']);
 
             $amount = $data['amount'];
+
+            if ($amount <= 0) {
+                throw new RuntimeException('Nominal withdrawal tidak valid.');
+            }
 
             if ($member->balance() < $amount) {
                 throw new RuntimeException('Saldo member tidak mencukupi.');
@@ -40,12 +48,11 @@ class WithdrawalService
                 type: MemberLedgerType::Withdrawal,
                 reference: $withdrawal,
                 debit: $withdrawal->amount,
-                description: 'Withdrawal',
+                description: "Withdrawal #{$withdrawal->withdrawal_no}",
             );
 
-            $withdrawal->update([
-                'member_ledger_id' => $ledger->id,
-            ]);
+            $withdrawal->member_ledger_id = $ledger->id;
+            $withdrawal->save();
 
             return $withdrawal->fresh();
         });

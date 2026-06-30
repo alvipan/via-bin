@@ -22,7 +22,7 @@
 
     </div>
 
-    {{-- Table --}}
+    {{-- Content --}}
 
     <div class="hidden md:block">
         @include('components.admin.wastes.index.table')

@@ -4,9 +4,9 @@
             <!-- Header Card: Nama & Status -->
             <div class="flex items-start justify-between gap-2">
 
-                <div class="text-base font-semibold text-zinc-800 dark:text-white">
+                <flux:heading class="font-semibold" :href="route('wastes.show', $waste)" wire:navigate>
                     {{ $waste->name }}
-                </div>
+                </flux:heading>
 
                 <div class="flex items-center justify-end gap-2">
                     @if ($waste->is_active)
@@ -16,18 +16,13 @@
                     @endif
 
                     <flux:dropdown>
-                        <flux:button variant="ghost" size="sm" icon="ellipsis-vertical"/>
+                        <flux:button variant="ghost" size="sm" icon="ellipsis-vertical" />
 
                         <flux:menu>
-                            <flux:menu.item :href="route('wastes.show', $waste)" wire:navigate>
-                                Detail
-                            </flux:menu.item>
 
                             <flux:menu.item wire:click="edit({{ $waste->id }})">
                                 Edit
                             </flux:menu.item>
-
-                            <flux:menu.separator />
 
                             <flux:menu.item wire:click="toggle({{ $waste->id }})">
                                 {{ $waste->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
@@ -41,21 +36,21 @@
 
             <!-- Konten Utama: Detail Informasi -->
             <flux:callout>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div class="grid grid-cols-2 gap-3 md:grid-cols-3">
                     <div>
-                        <span class="block text-xs text-zinc-400">Satuan</span>
-                        <span class="font-medium text-zinc-700 dark:text-zinc-300">{{ $waste->unit }}</span>
+                        <flux:text size="sm">Lot Aktif</flux:text>
+                        <flux:heading>{{ $waste->depositItems->count() }}</flux:heading>
                     </div>
                     <div>
-                        <span class="block text-xs text-zinc-400">Harga Estimasi</span>
-                        <span class="font-medium text-zinc-700 dark:text-zinc-300">Rp
-                            {{ number_format($waste->estimated_price) }}</span>
+                        <flux:text size="sm">Satuan</flux:text>
+                        <flux:heading>{{ $waste->unit }}</flux:heading>
                     </div>
                     <div>
-                        <span class="block text-xs text-zinc-400">Lot Aktif</span>
-                        <span
-                            class="font-medium text-zinc-700 dark:text-zinc-300">{{ $waste->depositItems->count() }}</span>
+                        <flux:text size="sm">Harga Estimasi</flux:text>
+                        <flux:heading>Rp
+                            {{ number_format($waste->estimated_price) }}</flux:heading>
                     </div>
+
                 </div>
             </flux:callout>
         </flux:card>

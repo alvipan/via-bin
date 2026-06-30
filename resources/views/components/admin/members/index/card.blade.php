@@ -6,11 +6,11 @@
             {{-- HEADER --}}
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <flux:heading class="text-base font-semibold">
+                    <flux:heading class="font-semibold">
                         {{ $member->name }}
                     </flux:heading>
 
-                    <flux:text class="text-xs">
+                    <flux:text size="sm">
                         {{ $member->member_code }}
                     </flux:text>
                 </div>
@@ -37,8 +37,7 @@
                                 Edit
                             </flux:menu.item>
 
-                            <flux:menu.item variant="danger"
-                                wire:click="confirmDelete({{ $member->id }})">
+                            <flux:menu.item variant="danger" wire:click="confirmDelete({{ $member->id }})">
                                 Delete
                             </flux:menu.item>
 
@@ -51,26 +50,26 @@
 
             {{-- INFO GRID --}}
             <flux:callout>
-                <div class="grid grid-cols-2 gap-3 text-sm">
+                <div class="grid grid-cols-2 gap-3">
 
                     <div>
-                        <div class="text-xs text-zinc-500">
+                        <flux:text size="sm">
                             Lot Aktif
-                        </div>
+                        </flux:text>
 
-                        <div class="font-medium">
+                        <flux:heading>
                             {{ $member->lots_count ?? 0 }}
-                        </div>
+                        </flux:heading>
                     </div>
 
                     <div>
-                        <div class="text-xs text-zinc-500">
+                        <flux:text size="sm">
                             Saldo
-                        </div>
+                        </flux:text>
 
-                        <div class="font-medium">
+                        <flux:heading>
                             Rp {{ number_format($member->balance(), 0, ',', '.') }}
-                        </div>
+                        </flux:heading>
                     </div>
 
                 </div>
