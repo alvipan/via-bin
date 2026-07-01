@@ -27,40 +27,19 @@
 
             <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
-                <a href="/" class="flex items-center gap-3">
-
-                    <div
-                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/20">
-
-                        <flux:icon.arrow-path class="size-6" />
-
-                    </div>
-
-                    <div>
-
-                        <h1 class="font-bold tracking-tight">
-                            ViaBin
-                        </h1>
-
-                        <p class="text-xs text-zinc-500 dark:text-zinc-400">
-                            Platform Digital Bank Sampah
-                        </p>
-
-                    </div>
-
-                </a>
+                <flux:brand logo="/icon.svg" :name="config('app.name', 'ViaBin')" />
 
                 <nav class="hidden items-center gap-8 text-sm md:flex">
 
-                    <a href="#features" class="transition hover:text-emerald-600">
+                    <a href="#features" class="transition hover:text-teal-600">
                         Fitur
                     </a>
 
-                    <a href="#workflow" class="transition hover:text-emerald-600">
+                    <a href="#workflow" class="transition hover:text-teal-600">
                         Cara Kerja
                     </a>
 
-                    <a href="#pricing" class="transition hover:text-emerald-600">
+                    <a href="#pricing" class="transition hover:text-teal-600">
                         Paket
                     </a>
 
@@ -96,26 +75,33 @@
 
         </header>
 
-        <section class="relative overflow-hidden">
+        <section class="relative overflow-x-hidden">
 
-            <div class="absolute left-0 top-0 h-[32rem] w-[32rem] rounded-full bg-emerald-500/10 blur-3xl">
+            {{-- Background --}}
+            <div class="pointer-events-none absolute inset-0 overflow-hidden">
+
+                <div
+                    class="absolute -left-40 -top-40 h-80 w-80 rounded-full bg-teal-500/10 blur-3xl sm:h-[32rem] sm:w-[32rem]">
+                </div>
+
+                <div
+                    class="absolute -bottom-40 -right-40 h-72 w-72 rounded-full bg-lime-400/10 blur-3xl sm:h-[30rem] sm:w-[30rem]">
+                </div>
+
             </div>
 
-            <div class="absolute bottom-0 right-0 h-[30rem] w-[30rem] rounded-full bg-lime-400/10 blur-3xl">
-            </div>
+            <div class="relative mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20 lg:py-32">
 
-            <div class="relative mx-auto max-w-7xl px-6 py-24 lg:py-36">
-
-                <div class="grid items-center gap-20 lg:grid-cols-2">
+                <div class="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
 
                     {{-- ================================================= --}}
-                    {{-- Left --}}
+                    {{-- LEFT --}}
                     {{-- ================================================= --}}
 
-                    <div>
+                    <div class="max-w-xl">
 
                         <div
-                            class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-300">
+                            class="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-sm font-medium text-teal-700 dark:border-teal-500/20 dark:bg-teal-500/10 dark:text-teal-300">
 
                             <flux:icon.sparkles class="size-4" />
 
@@ -123,11 +109,11 @@
 
                         </div>
 
-                        <h1 class="mt-8 max-w-2xl text-5xl font-black tracking-tight lg:text-7xl">
+                        <h1 class="mt-6 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:mt-8 lg:text-7xl">
 
                             Ubah Sampah
 
-                            <span class="text-emerald-600">
+                            <span class="text-teal-600">
 
                                 Menjadi Nilai.
 
@@ -135,26 +121,34 @@
 
                         </h1>
 
-                        <p class="mt-8 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+                        <p class="mt-6 text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8 dark:text-zinc-400">
 
-                            ViaBin membantu Bank Sampah mengelola
-                            anggota, transaksi setoran, tabungan,
-                            investasi, hingga pembagian keuntungan
-                            dalam satu platform yang mudah digunakan.
+                            ViaBin membantu Bank Sampah mengelola anggota,
+                            transaksi setoran, tabungan, investasi,
+                            hingga pembagian keuntungan dalam satu platform
+                            yang mudah digunakan.
 
                         </p>
 
-                        <div class="mt-10 flex flex-wrap gap-4">
+                        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
 
                             @guest
 
-                                <flux:button href="{{ route('register') }}" variant="primary">
+                                <flux:button
+                                    class="w-full sm:w-auto"
+                                    href="{{ route('register') }}"
+                                    variant="primary">
 
                                     Mulai Sekarang
 
                                 </flux:button>
+
                             @else
-                                <flux:button href="{{ route('dashboard') }}" variant="primary">
+
+                                <flux:button
+                                    class="w-full sm:w-auto"
+                                    href="{{ route('dashboard') }}"
+                                    variant="primary">
 
                                     Buka Dashboard
 
@@ -162,7 +156,10 @@
 
                             @endguest
 
-                            <flux:button href="#features" variant="ghost">
+                            <flux:button
+                                class="w-full sm:w-auto"
+                                href="#features"
+                                variant="ghost">
 
                                 Pelajari Lebih Lanjut
 
@@ -170,17 +167,17 @@
 
                         </div>
 
-                        <div class="mt-14 grid grid-cols-3 gap-8">
+                        <div class="mt-10 grid grid-cols-3 gap-6 text-center sm:text-left">
 
                             <div>
 
-                                <div class="text-3xl font-bold">
+                                <div class="text-2xl font-bold sm:text-3xl">
 
                                     100%
 
                                 </div>
 
-                                <div class="mt-2 text-sm text-zinc-500">
+                                <div class="mt-1 text-sm text-zinc-500">
 
                                     Digital
 
@@ -190,15 +187,15 @@
 
                             <div>
 
-                                <div class="text-3xl font-bold">
+                                <div class="text-2xl font-bold sm:text-3xl">
 
                                     6+
 
                                 </div>
 
-                                <div class="mt-2 text-sm text-zinc-500">
+                                <div class="mt-1 text-sm text-zinc-500">
 
-                                    Modul Utama
+                                    Modul
 
                                 </div>
 
@@ -206,13 +203,13 @@
 
                             <div>
 
-                                <div class="text-3xl font-bold">
+                                <div class="text-2xl font-bold sm:text-3xl">
 
                                     Real-time
 
                                 </div>
 
-                                <div class="mt-2 text-sm text-zinc-500">
+                                <div class="mt-1 text-sm text-zinc-500">
 
                                     Laporan
 
@@ -225,21 +222,21 @@
                     </div>
 
                     {{-- ================================================= --}}
-                    {{-- Right --}}
+                    {{-- RIGHT --}}
                     {{-- ================================================= --}}
 
-                    <div class="relative">
+                    <div class="relative mx-auto w-full max-w-md lg:max-w-xl">
 
                         {{-- Floating Card --}}
                         <div
-                            class="absolute -left-10 top-10 hidden rounded-2xl border border-emerald-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-zinc-800 dark:bg-zinc-900">
+                            class="absolute -left-8 top-10 hidden rounded-2xl border border-teal-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-zinc-800 dark:bg-zinc-900">
 
                             <div class="flex items-center gap-3">
 
                                 <div
-                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-teal-100 text-teal-600">
 
-                                    <flux:icon.arrow-down-tray class="size-5" />
+                                    <flux:icon.arrow-down-tray class="size-5"/>
 
                                 </div>
 
@@ -264,14 +261,14 @@
                         </div>
 
                         <div
-                            class="absolute -right-8 bottom-16 hidden rounded-2xl border border-emerald-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-zinc-800 dark:bg-zinc-900">
+                            class="absolute -right-8 bottom-16 hidden rounded-2xl border border-teal-200 bg-white px-5 py-4 shadow-xl lg:block dark:border-zinc-800 dark:bg-zinc-900">
 
                             <div class="flex items-center gap-3">
 
                                 <div
-                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-teal-100 text-teal-600">
 
-                                    <flux:icon.banknotes class="size-5" />
+                                    <flux:icon.banknotes class="size-5"/>
 
                                 </div>
 
@@ -295,11 +292,11 @@
 
                         </div>
 
-                        {{-- Dashboard Preview --}}
+                        {{-- Dashboard --}}
                         <div
-                            class="overflow-hidden rounded-[2rem] border border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                            class="overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
 
-                            <div class="border-b border-zinc-200 px-8 py-6 dark:border-zinc-800">
+                            <div class="border-b border-zinc-200 px-5 py-5 sm:px-8 sm:py-6 dark:border-zinc-800">
 
                                 <div class="flex items-center justify-between">
 
@@ -320,7 +317,7 @@
                                     </div>
 
                                     <div
-                                        class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+                                        class="rounded-full bg-teal-100 px-3 py-1 text-xs font-medium text-teal-700 dark:bg-teal-500/10 dark:text-teal-300">
 
                                         Aktif
 
@@ -330,9 +327,9 @@
 
                             </div>
 
-                            <div class="space-y-6 p-8">
+                            <div class="space-y-5 p-5 sm:space-y-6 sm:p-8">
 
-                                <div class="rounded-2xl bg-emerald-600 p-6 text-white">
+                                <div class="rounded-2xl bg-teal-600 p-5 text-white sm:p-6">
 
                                     <div class="text-sm opacity-80">
 
@@ -340,7 +337,7 @@
 
                                     </div>
 
-                                    <div class="mt-3 text-4xl font-black">
+                                    <div class="mt-3 break-words text-3xl font-black sm:text-4xl">
 
                                         Rp28.450.000
 
@@ -348,13 +345,13 @@
 
                                 </div>
 
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-2 gap-3 sm:gap-4">
 
-                                    <div class="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-800">
+                                    <div class="rounded-2xl border border-zinc-200 p-4 sm:p-5 dark:border-zinc-800">
 
-                                        <flux:icon.scale class="mb-3 size-6 text-emerald-600" />
+                                        <flux:icon.scale class="mb-3 size-6 text-teal-600"/>
 
-                                        <div class="text-2xl font-bold">
+                                        <div class="text-xl font-bold sm:text-2xl">
 
                                             128 Kg
 
@@ -368,11 +365,11 @@
 
                                     </div>
 
-                                    <div class="rounded-2xl border border-zinc-200 p-5 dark:border-zinc-800">
+                                    <div class="rounded-2xl border border-zinc-200 p-4 sm:p-5 dark:border-zinc-800">
 
-                                        <flux:icon.users class="mb-3 size-6 text-emerald-600" />
+                                        <flux:icon.users class="mb-3 size-6 text-teal-600"/>
 
-                                        <div class="text-2xl font-bold">
+                                        <div class="text-xl font-bold sm:text-2xl">
 
                                             37
 
@@ -389,11 +386,11 @@
                                 </div>
 
                                 <div
-                                    class="rounded-2xl border border-dashed border-emerald-300 bg-emerald-50 p-5 dark:border-emerald-500/20 dark:bg-emerald-500/10">
+                                    class="rounded-2xl border border-dashed border-teal-300 bg-teal-50 p-4 sm:p-5 dark:border-teal-500/20 dark:bg-teal-500/10">
 
-                                    <div class="flex items-center gap-3">
+                                    <div class="flex items-start gap-3">
 
-                                        <flux:icon.check-circle class="size-6 text-emerald-600" />
+                                        <flux:icon.check-circle class="mt-0.5 size-6 shrink-0 text-teal-600"/>
 
                                         <div>
 
@@ -403,7 +400,7 @@
 
                                             </div>
 
-                                            <div class="text-sm text-zinc-500">
+                                            <div class="mt-1 text-sm text-zinc-500">
 
                                                 Data diperbarui secara otomatis.
 
@@ -431,46 +428,44 @@
         {{-- Mengapa Memilih ViaBin --}}
         {{-- ========================================================= --}}
 
-        <section id="features" class="py-28">
+        <section id="features" class="py-16 sm:py-20 lg:py-28">
 
-            <div class="mx-auto max-w-7xl px-6">
+            <div class="mx-auto max-w-7xl px-5 sm:px-6">
 
-                <div class="mx-auto max-w-3xl text-center">
+                <div class="mx-auto max-w-2xl text-center">
 
                     <span
-                        class="rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+                        class="inline-flex rounded-full bg-teal-100 px-4 py-2 text-sm font-medium text-teal-700 dark:bg-teal-500/10 dark:text-teal-300">
 
                         Mengapa ViaBin?
 
                     </span>
 
-                    <h2 class="mt-6 text-4xl font-black tracking-tight lg:text-5xl">
+                    <h2 class="mt-5 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
 
-                        Semua Operasional
-                        Bank Sampah
+                        Semua Operasional Bank Sampah
                         Dalam Satu Platform.
 
                     </h2>
 
-                    <p class="mt-6 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+                    <p class="mt-5 text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8 dark:text-zinc-400">
 
-                        Tidak perlu lagi berpindah aplikasi atau melakukan
-                        pencatatan manual. ViaBin membantu seluruh proses
-                        operasional menjadi lebih cepat, rapi, dan transparan.
+                        Tidak perlu lagi berpindah aplikasi atau melakukan pencatatan manual.
+                        ViaBin membantu seluruh operasional menjadi lebih cepat, rapi, dan transparan.
 
                     </p>
 
                 </div>
 
-                <div class="mt-20 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+                <div class="mt-12 grid gap-5 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
 
                     <div
-                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-emerald-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-teal-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
 
                         <div
-                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
 
-                            <flux:icon.users class="size-7" />
+                            <flux:icon.users class="size-6" />
 
                         </div>
 
@@ -490,12 +485,12 @@
                     </div>
 
                     <div
-                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-emerald-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-teal-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
 
-                        <div
-                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+                            <div
+                                class="flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-100 text-teal-600">
 
-                            <flux:icon.scale class="size-7" />
+                            <flux:icon.scale class="size-6" />
 
                         </div>
 
@@ -515,12 +510,12 @@
                     </div>
 
                     <div
-                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-emerald-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-teal-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
 
                         <div
-                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
 
-                            <flux:icon.wallet class="size-7" />
+                            <flux:icon.wallet class="size-6" />
 
                         </div>
 
@@ -540,12 +535,12 @@
                     </div>
 
                     <div
-                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-emerald-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-teal-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
 
                         <div
-                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
 
-                            <flux:icon.chart-bar class="size-7" />
+                            <flux:icon.chart-bar class="size-6" />
 
                         </div>
 
@@ -565,12 +560,12 @@
                     </div>
 
                     <div
-                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-emerald-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-teal-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
 
                         <div
-                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
 
-                            <flux:icon.banknotes class="size-7" />
+                            <flux:icon.banknotes class="size-6" />
 
                         </div>
 
@@ -590,10 +585,10 @@
                     </div>
 
                     <div
-                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-emerald-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                        class="group rounded-3xl border border-zinc-200 bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-teal-500 hover:shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
 
                         <div
-                            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
 
                             <flux:icon.arrow-trending-up class="size-7" />
 
@@ -624,121 +619,136 @@
         {{-- Cara Kerja --}}
         {{-- ========================================================= --}}
 
-        <section id="workflow" class="bg-zinc-50 py-28 dark:bg-zinc-900/40">
+        <section id="workflow" class="bg-zinc-50 py-8 sm:py-16 lg:py-20 dark:bg-zinc-900/40">
 
-            <div class="mx-auto max-w-7xl px-6">
+            <div class="mx-auto max-w-7xl px-5 sm:px-6">
 
-                <div class="mx-auto max-w-3xl text-center">
+                <div class="mx-auto max-w-2xl text-center mb-6 lg:mb-12">
 
                     <span
-                        class="rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+                        class="inline-flex rounded-full bg-teal-100 px-4 py-2 text-sm font-medium text-teal-700 dark:bg-teal-500/10 dark:text-teal-300">
 
                         Cara Kerja
 
                     </span>
 
-                    <h2 class="mt-6 text-4xl font-black">
+                    <h2 class="mt-5 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
 
-                        Empat Langkah
-                        yang Sangat Mudah.
+                        Empat Langkah Mudah
 
                     </h2>
 
+                    <p class="mt-5 text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8 dark:text-zinc-400">
+
+                        Dari pendaftaran anggota hingga laporan transaksi,
+                        seluruh proses dapat dilakukan dengan cepat, mudah,
+                        dan terdokumentasi secara otomatis.
+
+                    </p>
+
                 </div>
 
-                <div class="mt-20 grid gap-10 lg:grid-cols-4">
+                <div class="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
 
-                    <div class="relative text-center">
+                    {{-- Step 1 --}}
+                    <div
+                        class="relative rounded-2xl border border-zinc-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
 
                         <div
-                            class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-600 text-white">
 
-                            <flux:icon.user-plus class="size-9" />
+                            <flux:icon.user-plus class="size-6" />
 
                         </div>
 
-                        <div class="mt-8 text-xl font-semibold">
+                        <h3 class="mt-5 text-lg font-semibold">
 
                             Tambah Anggota
 
-                        </div>
+                        </h3>
 
-                        <p class="mt-3 text-zinc-500">
+                        <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
 
-                            Daftarkan anggota
-                            bank sampah.
+                            Daftarkan anggota baru beserta data identitasnya
+                            hanya dalam beberapa detik.
 
                         </p>
 
                     </div>
 
-                    <div class="relative text-center">
+                    {{-- Step 2 --}}
+                    <div
+                        class="relative rounded-2xl border border-zinc-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
 
                         <div
-                            class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-600 text-white">
 
-                            <flux:icon.scale class="size-9" />
+                            <flux:icon.scale class="size-6" />
 
                         </div>
 
-                        <div class="mt-8 text-xl font-semibold">
+                        <h3 class="mt-5 text-lg font-semibold">
 
                             Timbang Sampah
 
-                        </div>
+                        </h3>
 
-                        <p class="mt-3 text-zinc-500">
+                        <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
 
-                            Berat dan harga
-                            dihitung otomatis.
+                            Berat, kategori, harga, dan nilai transaksi
+                            dihitung secara otomatis.
 
                         </p>
 
                     </div>
 
-                    <div class="relative text-center">
+                    {{-- Step 3 --}}
+                    <div
+                        class="relative rounded-2xl border border-zinc-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
 
                         <div
-                            class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-600 text-white">
 
-                            <flux:icon.wallet class="size-9" />
+                            <flux:icon.wallet class="size-6" />
 
                         </div>
 
-                        <div class="mt-8 text-xl font-semibold">
+                        <h3 class="mt-5 text-lg font-semibold">
 
                             Saldo Bertambah
 
-                        </div>
+                        </h3>
 
-                        <p class="mt-3 text-zinc-500">
+                        <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
 
-                            Tabungan anggota
-                            langsung diperbarui.
+                            Saldo tabungan anggota langsung diperbarui setelah
+                            transaksi berhasil disimpan.
 
                         </p>
 
                     </div>
 
-                    <div class="relative text-center">
+                    {{-- Step 4 --}}
+                    <div
+                        class="relative rounded-2xl border border-zinc-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-500 hover:shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
 
                         <div
-                            class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-600 text-white">
 
-                            <flux:icon.chart-pie class="size-9" />
+                            <flux:icon.chart-pie class="size-6" />
 
                         </div>
 
-                        <div class="mt-8 text-xl font-semibold">
+                        <h3 class="mt-5 text-lg font-semibold">
 
                             Pantau Laporan
 
-                        </div>
+                        </h3>
 
-                        <p class="mt-3 text-zinc-500">
+                        <p class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
 
-                            Semua data tersedia
-                            secara real-time.
+                            Seluruh transaksi, saldo, dan perkembangan bank
+                            sampah tersedia secara real-time.
 
                         </p>
 
@@ -763,7 +773,7 @@
                     <div>
 
                         <span
-                            class="rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+                            class="rounded-full bg-teal-100 px-4 py-2 text-sm font-medium text-teal-700 dark:bg-teal-500/10 dark:text-teal-300">
 
                             Dashboard Modern
 
@@ -794,7 +804,7 @@
 
                         <div class="grid grid-cols-2 gap-4">
 
-                            <div class="rounded-2xl bg-emerald-600 p-5 text-white">
+                            <div class="rounded-2xl bg-teal-600 p-5 text-white">
                                 <div class="text-sm opacity-80">
                                     Saldo
                                 </div>
@@ -848,46 +858,49 @@
         {{-- Investasi & Profit Sharing --}}
         {{-- ========================================================= --}}
 
-        <section class="bg-zinc-50 py-28 dark:bg-zinc-900/40">
+        <section class="bg-zinc-50 py-16 sm:py-20 lg:py-28 dark:bg-zinc-900/40">
 
-            <div class="mx-auto max-w-7xl px-6">
+            <div class="mx-auto max-w-7xl px-5 sm:px-6">
 
-                <div class="grid items-center gap-20 lg:grid-cols-2">
+                <div class="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
 
-                    <div>
+                    {{-- ================================================= --}}
+                    {{-- LEFT --}}
+                    {{-- ================================================= --}}
+
+                    <div class="max-w-xl">
 
                         <span
-                            class="rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300">
+                            class="inline-flex rounded-full bg-teal-100 px-4 py-2 text-sm font-medium text-teal-700 dark:bg-teal-500/10 dark:text-teal-300">
 
                             Lebih dari Sekadar Bank Sampah
 
                         </span>
 
-                        <h2 class="mt-6 text-4xl font-black tracking-tight lg:text-5xl">
+                        <h2 class="mt-6 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
 
-                            Kelola Investasi
-                            dan Profit Sharing
-                            Dengan Lebih Mudah.
+                            Kelola Investasi dan Profit Sharing
+                            dengan Lebih Mudah.
 
                         </h2>
 
-                        <p class="mt-8 text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+                        <p class="mt-6 text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8 dark:text-zinc-400">
 
-                            ViaBin membantu pengelolaan investasi anggota
-                            hingga pembagian keuntungan secara transparan.
-                            Semua transaksi tercatat rapi sehingga mudah
-                            dipantau kapan saja.
+                            ViaBin membantu pengelolaan investasi anggota,
+                            pembagian keuntungan, hingga pencatatan seluruh
+                            transaksi secara transparan sehingga mudah dipantau
+                            kapan saja.
 
                         </p>
 
-                        <div class="mt-10 space-y-5">
+                        <div class="mt-10 space-y-6">
 
-                            <div class="flex gap-4">
+                            <div class="flex items-start gap-4">
 
                                 <div
-                                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
+                                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
 
-                                    <flux:icon.banknotes class="size-6" />
+                                    <flux:icon.banknotes class="size-6"/>
 
                                 </div>
 
@@ -899,9 +912,9 @@
 
                                     </h3>
 
-                                    <p class="mt-1 text-zinc-500">
+                                    <p class="mt-1 text-sm leading-6 text-zinc-500">
 
-                                        Catat seluruh investasi dengan riwayat yang lengkap.
+                                        Catat seluruh investasi anggota beserta riwayat transaksi secara lengkap.
 
                                     </p>
 
@@ -909,12 +922,12 @@
 
                             </div>
 
-                            <div class="flex gap-4">
+                            <div class="flex items-start gap-4">
 
                                 <div
-                                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
+                                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
 
-                                    <flux:icon.arrow-trending-up class="size-6" />
+                                    <flux:icon.arrow-trending-up class="size-6"/>
 
                                 </div>
 
@@ -926,9 +939,9 @@
 
                                     </h3>
 
-                                    <p class="mt-1 text-zinc-500">
+                                    <p class="mt-1 text-sm leading-6 text-zinc-500">
 
-                                        Perhitungan keuntungan lebih mudah dan transparan.
+                                        Perhitungan keuntungan dilakukan lebih mudah, akurat, dan transparan.
 
                                     </p>
 
@@ -936,12 +949,12 @@
 
                             </div>
 
-                            <div class="flex gap-4">
+                            <div class="flex items-start gap-4">
 
                                 <div
-                                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
+                                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-100 text-teal-600">
 
-                                    <flux:icon.document-chart-bar class="size-6" />
+                                    <flux:icon.document-chart-bar class="size-6"/>
 
                                 </div>
 
@@ -953,9 +966,9 @@
 
                                     </h3>
 
-                                    <p class="mt-1 text-zinc-500">
+                                    <p class="mt-1 text-sm leading-6 text-zinc-500">
 
-                                        Semua data tersedia untuk audit maupun evaluasi.
+                                        Seluruh data tersedia untuk audit, evaluasi, maupun pelaporan.
 
                                     </p>
 
@@ -967,64 +980,92 @@
 
                     </div>
 
-                    <div>
+                    {{-- ================================================= --}}
+                    {{-- RIGHT --}}
+                    {{-- ================================================= --}}
+
+                    <div class="mx-auto w-full max-w-sm lg:max-w-lg">
 
                         <div
-                            class="rounded-[2rem] border border-zinc-200 bg-white p-8 shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+                            class="rounded-3xl border border-zinc-200 bg-white p-4 shadow-xl sm:p-6 lg:p-8 dark:border-zinc-800 dark:bg-zinc-900">
 
-                            <div class="flex items-center justify-between">
+                            <div class="flex items-center justify-between gap-3">
 
-                                <div>
+                                <div class="min-w-0">
 
-                                    <div class="text-sm text-zinc-500">
+                                    <p class="text-xs font-medium uppercase tracking-wide text-zinc-500">
 
                                         Total Investasi
 
-                                    </div>
+                                    </p>
 
-                                    <div class="mt-2 text-4xl font-black">
+                                    <h3 class="mt-1 text-2xl font-black leading-none sm:text-3xl lg:text-4xl">
 
                                         Rp125.800.000
 
-                                    </div>
+                                    </h3>
 
                                 </div>
 
-                                <div
-                                    class="rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-700">
+                                <span
+                                    class="rounded-full bg-teal-100 px-2.5 py-1 text-xs font-semibold text-teal-700 dark:bg-teal-500/10 dark:text-teal-300">
 
                                     Aktif
 
-                                </div>
+                                </span>
 
                             </div>
 
-                            <div class="mt-10 space-y-4">
+                            <div class="mt-6 space-y-2">
 
                                 <div
-                                    class="flex items-center justify-between rounded-xl bg-zinc-50 p-4 dark:bg-zinc-800">
+                                    class="flex items-center justify-between rounded-xl bg-zinc-50 px-4 py-3 dark:bg-zinc-800">
 
-                                    <span>Investor Aktif</span>
+                                    <span class="text-sm text-zinc-500">
 
-                                    <strong>248 Orang</strong>
+                                        Investor Aktif
+
+                                    </span>
+
+                                    <span class="font-semibold">
+
+                                        248 Orang
+
+                                    </span>
 
                                 </div>
 
                                 <div
-                                    class="flex items-center justify-between rounded-xl bg-zinc-50 p-4 dark:bg-zinc-800">
+                                    class="flex items-center justify-between rounded-xl bg-zinc-50 px-4 py-3 dark:bg-zinc-800">
 
-                                    <span>Profit Bulan Ini</span>
+                                    <span class="text-sm text-zinc-500">
 
-                                    <strong>Rp8.540.000</strong>
+                                        Profit Bulan Ini
+
+                                    </span>
+
+                                    <span class="font-semibold">
+
+                                        Rp8.540.000
+
+                                    </span>
 
                                 </div>
 
                                 <div
-                                    class="flex items-center justify-between rounded-xl bg-zinc-50 p-4 dark:bg-zinc-800">
+                                    class="flex items-center justify-between rounded-xl bg-zinc-50 px-4 py-3 dark:bg-zinc-800">
 
-                                    <span>Total Pembagian Profit</span>
+                                    <span class="text-sm text-zinc-500">
 
-                                    <strong>Rp54.200.000</strong>
+                                        Profit Dibagikan
+
+                                    </span>
+
+                                    <span class="font-semibold">
+
+                                        Rp54.200.000
+
+                                    </span>
 
                                 </div>
 
@@ -1049,7 +1090,7 @@
             <div class="mx-auto max-w-7xl px-6">
 
                 <div
-                    class="overflow-hidden rounded-[2rem] bg-gradient-to-r from-emerald-600 to-green-700 px-10 py-16 text-center text-white shadow-2xl">
+                    class="overflow-hidden rounded-[2rem] bg-gradient-to-r from-teal-600 to-green-700 px-10 py-16 text-center text-white shadow-2xl">
 
                     <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white/10">
 
@@ -1065,7 +1106,7 @@
 
                     </h2>
 
-                    <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-emerald-100">
+                    <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-teal-100">
 
                         Tinggalkan pencatatan manual.
                         Kelola anggota, transaksi, tabungan,
@@ -1116,7 +1157,7 @@
 
                 <div class="flex items-center gap-4">
 
-                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-600 text-white">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-600 text-white">
 
                         <flux:icon.arrow-path class="size-6" />
 
@@ -1142,15 +1183,15 @@
 
                 <div class="flex flex-wrap items-center justify-center gap-8 text-sm text-zinc-500">
 
-                    <a href="#features" class="hover:text-emerald-600">
+                    <a href="#features" class="hover:text-teal-600">
                         Fitur
                     </a>
 
-                    <a href="#workflow" class="hover:text-emerald-600">
+                    <a href="#workflow" class="hover:text-teal-600">
                         Cara Kerja
                     </a>
 
-                    <a href="#pricing" class="hover:text-emerald-600">
+                    <a href="#pricing" class="hover:text-teal-600">
                         Paket
                     </a>
 
