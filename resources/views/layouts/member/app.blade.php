@@ -6,9 +6,16 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ config('app.name', 'ViaBin') }}</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Judul Dinamis dengan Default Fallback -->
+        <title>{{ $title ?? config('app.name', 'ViaBin') }}</title>
+
+        <!-- Stack untuk Meta Tags SEO Dinamis -->
+        @stack('meta')
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
@@ -22,8 +29,7 @@
         <flux:sidebar sticky collapsible="mobile"
             class="border-r border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.header>
-                <flux:sidebar.brand href="#" logo="https://fluxui.dev/img/demo/logo.png"
-                    logo:dark="https://fluxui.dev/img/demo/dark-mode-logo.png" name="{{ config('app.name') }}" />
+                <flux:sidebar.brand href="/" logo="/icon.svg" name="{{ config('app.name') }}" />
 
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>

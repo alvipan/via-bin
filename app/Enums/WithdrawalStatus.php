@@ -12,10 +12,10 @@ enum WithdrawalStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Draft => 'Draft',
-            self::Pending => 'Pending',
-            self::Posted => 'Posted',
-            self::Rejected => 'Rejected',
+            self::Draft => 'Draf',
+            self::Pending => 'Ditunda',
+            self::Posted => 'Dibukukan',
+            self::Rejected => 'Ditolak',
         };
     }
 

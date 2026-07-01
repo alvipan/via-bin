@@ -12,7 +12,7 @@ enum SaleStatus: string
     {
         return match ($this) {
             self::Draft => 'Draft',
-            self::Posted => 'Diterbitkan',
+            self::Posted => 'Dibukukan',
             self::Cancelled => 'Dibatalkan',
         };
     }

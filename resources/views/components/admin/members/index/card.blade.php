@@ -19,11 +19,11 @@
                 <div class="flex items-center justify-end gap-2">
                     @if ($member->is_active)
                         <flux:badge color="green" size="sm">
-                            Active
+                            Aktif
                         </flux:badge>
                     @else
                         <flux:badge color="zinc" size="sm">
-                            Inactive
+                            Tidak Aktif
                         </flux:badge>
                     @endif
 
