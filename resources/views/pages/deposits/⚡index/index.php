@@ -15,13 +15,23 @@ new class extends Component
 
     public bool $createModal = false;
 
-    public ?int $memberId = null;
+    public string $memberCode = '';
+
+    public ?Member $member = null;
 
     public string $notes = '';
 
     public function updatedSearch(): void
     {
         $this->resetPage();
+    }
+
+    public function updatedMemberCode(): void
+    {
+        $this->member = Member::query()
+            ->where('member_code', trim($this->memberCode))
+            ->where('is_active', true)
+            ->first();
     }
 
     public function create(): void
@@ -35,14 +45,22 @@ new class extends Component
         DepositService $service
     ) {
         $this->validate([
-            'memberId' => [
-                'required',
-                'exists:members,id',
-            ],
+            'memberCode' => ['required'],
         ]);
 
         $member = Member::query()
-            ->findOrFail($this->memberId);
+            ->where('member_code', trim($this->memberCode))
+            ->where('is_active', true)
+            ->first();
+
+        if (! $member) {
+            $this->addError(
+                'memberCode',
+                'Kode anggota tidak ditemukan.'
+            );
+
+            return;
+        }
 
         $deposit = $service->create(
             tenant: TenantContext::tenant(),
@@ -62,7 +80,8 @@ new class extends Component
     protected function resetForm(): void
     {
         $this->reset([
-            'memberId',
+            'memberCode',
+            'member',
             'notes',
         ]);
     }
@@ -83,19 +102,10 @@ new class extends Component
             ->paginate();
     }
 
-    protected function members()
-    {
-        return Member::query()
-            ->where('is_active', true)
-            ->orderBy('name')
-            ->get();
-    }
-
     public function render()
     {
         return $this->view([
             'deposits' => $this->deposits(),
-            'members' => $this->members(),
         ]);
     }
 };

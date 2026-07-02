@@ -36,19 +36,26 @@
                 Tambah Setoran
             </flux:heading>
 
-            <flux:select wire:model="memberId" label="Member">
-                <option value="">
-                    Pilih Anggota
-                </option>
+            <div class="space-y-3">
 
-                @foreach ($members as $member)
-                    <option value="{{ $member->id }}">
-                        {{ $member->member_code }}
-                        -
-                        {{ $member->name }}
-                    </option>
-                @endforeach
-            </flux:select>
+                <flux:input wire:model.live.debounce.300ms="memberCode" label="Kode Anggota"
+                    placeholder="Masukkan kode anggota" />
+
+                @if ($member)
+                    <flux:callout variant="success">
+                        <flux:callout.heading icon="user">
+                            {{ $member->name }}
+                        </flux:callout.heading>
+                    </flux:callout>
+                @elseif(filled($memberCode))
+                    <flux:callout variant="danger">
+                        <flux:callout.heading icon="x-circle">
+                            Anggota tidak ditemukan.
+                        </flux:callout.heading>
+                    </flux:callout>
+                @endif
+
+            </div>
 
             <flux:textarea wire:model="notes" label="Catatan" />
 
