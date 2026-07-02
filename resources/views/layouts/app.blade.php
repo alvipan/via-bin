@@ -89,7 +89,7 @@
             <flux:spacer />
 
             <flux:dropdown position="top" align="start">
-                <flux:profile circle icon="user" />
+                <flux:profile circle icon="user" :chevron="false" />
 
                 <flux:menu>
                     <flux:menu.radio.group>

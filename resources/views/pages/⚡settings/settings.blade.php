@@ -13,6 +13,13 @@
     <flux:card class="max-w-xl">
 
         <div class="space-y-6">
+            <flux:heading>Bank Sampah</flux:heading>
+
+            <flux:input wire:model="name" label="Nama Bank Sampah" />
+
+            <flux:separator />
+
+            <flux:heading>Operasional</flux:heading>
 
             <flux:input wire:model="operationalFeePercent" type="number" step="0.01" min="0" max="100"
                 label="Biaya Operasional (%)" />

@@ -14,9 +14,17 @@
         </div>
 
         @if ($sale->status === \App\Enums\SaleStatus::Draft)
-            <flux:button variant="primary" wire:click="confirmPost">
-                Terbitkan
-            </flux:button>
+            <div class="flex gap-2">
+
+                <flux:button variant="danger" wire:click="confirmDelete">
+                    Hapus
+                </flux:button>
+
+                <flux:button variant="primary" wire:click="confirmPost">
+                    Terbitkan
+                </flux:button>
+
+            </div>
         @endif
 
     </div>
@@ -322,6 +330,40 @@
                 </flux:button>
 
             </div>
+        </div>
+
+    </flux:modal>
+
+    {{-- DELETE MODAL --}}
+    <flux:modal wire:model="deleteModal" class="w-sm">
+
+        <div class="space-y-6">
+
+            <flux:heading>
+                Hapus Penjualan
+            </flux:heading>
+
+            <flux:text color="red">
+                Penjualan draft ini akan dihapus secara permanen.
+            </flux:text>
+
+            <flux:callout>
+                <flux:text>• Semua item penjualan akan ikut dihapus.</flux:text>
+                <flux:text>• Tindakan ini tidak dapat dibatalkan.</flux:text>
+            </flux:callout>
+
+            <div class="flex justify-end gap-2">
+
+                <flux:button variant="ghost" wire:click="$set('deleteModal', false)">
+                    Batal
+                </flux:button>
+
+                <flux:button variant="danger" wire:click="delete">
+                    Hapus
+                </flux:button>
+
+            </div>
+
         </div>
 
     </flux:modal>

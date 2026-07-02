@@ -14,6 +14,7 @@ new class extends Component
 
     public bool $postModal = false;
     public bool $itemModal = false;
+    public bool $deleteModal = false;
 
     public ?int $editingItemId = null;
     public ?int $wasteTypeId = null;
@@ -163,6 +164,22 @@ new class extends Component
 
             $this->addError('post', $e->getMessage());
         }
+    }
+
+    public function confirmDelete(): void
+    {
+        $this->deleteModal = true;
+    }
+
+    public function delete(): void
+    {
+        $this->guardIfPosted();
+
+        $this->sale->delete();
+
+        session()->flash('success', 'Penjualan berhasil dihapus.');
+
+        $this->redirectRoute('sales.index', navigate: true);
     }
 
     /* -------------------------------------------------
