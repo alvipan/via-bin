@@ -82,6 +82,14 @@ class SidebarNavigation
                         'roles' => [TenantRole::Owner, TenantRole::Admin],
                     ],
                     [
+                        'label' => 'Kas',
+                        'icon' => 'banknotes',
+                        'route' => 'cash.index',
+                        'active' => 'cash.*',
+                        'module' => TenantModule::Cash,
+                        'roles' => [TenantRole::Owner, TenantRole::Admin],
+                    ],
+                    [
                         'label' => 'Settings',
                         'icon' => 'cog-6-tooth',
                         'route' => 'settings',

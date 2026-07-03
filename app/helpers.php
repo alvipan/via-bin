@@ -47,3 +47,19 @@ if (! function_exists('member')) {
         return Auth::guard('member')->user();
     }
 }
+
+if (! function_exists('money')) {
+    function money(
+        float|int|string|null $amount,
+        bool $prefix = true,
+        int $decimals = 0,
+    ): string {
+        $amount ??= 0;
+
+        $formatted = number_format((float) $amount, $decimals, ',', '.');
+
+        return $prefix
+            ? "Rp {$formatted}"
+            : $formatted;
+    }
+}

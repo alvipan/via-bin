@@ -22,8 +22,9 @@ Route::middleware(['auth'])->group(function()
     Route::livewire('/onboarding', 'pages::onboarding')->name('onboarding');
 });
 
-Route::middleware(['auth', 'tenant'])->group(function () 
+Route::middleware(['auth', 'tenant'])->group(function ()
 {
+    Route::livewire('/cash', 'pages::cash.index')->name('cash.index');
     Route::livewire('/settings', 'pages::settings')->name('settings');
 
     Route::livewire('/dashboard', 'pages::dashboard')->name('dashboard');

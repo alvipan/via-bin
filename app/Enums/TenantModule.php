@@ -11,6 +11,7 @@ enum TenantModule: string
     case Lots = 'lots';
     case Sales = 'sales';
     case Withdrawals = 'withdrawals';
+    case Cash = 'cash';
     case Settings = 'settings';
     case Users = 'users';
 }

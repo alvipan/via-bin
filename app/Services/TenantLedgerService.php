@@ -18,13 +18,17 @@ class TenantLedgerService
         ?int $createdBy = null,
     ): TenantLedger {
 
+        $tenantId = tenant_id();
+
         $lastBalance = TenantLedger::query()
+            ->where('tenant_id', $tenantId)
             ->latest('id')
             ->value('balance') ?? 0;
 
         $balance = $lastBalance + $credit - $debit;
 
         return TenantLedger::create([
+            'tenant_id' => $tenantId,
             'type' => $type,
 
             'reference_type' => $reference::class,

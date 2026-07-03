@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TenantLedgerType;
 use App\Models\Concerns\HasTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +32,7 @@ class TenantLedger extends Model
     protected function casts(): array
     {
         return [
+            'type' => TenantLedgerType::class,
             'debit' => 'decimal:2',
             'credit' => 'decimal:2',
             'balance' => 'decimal:2',
