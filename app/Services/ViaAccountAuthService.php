@@ -3,15 +3,16 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ViaAccountAuthService
 {
     public function authorizationUrl(): string
     {
         $config = config('services.viaaccount');
+
         $state = bin2hex(random_bytes(16));
 
-        // store state in session for later validation
         session()->put('viaaccount_oauth_state', $state);
 
         $query = http_build_query([
@@ -29,41 +30,26 @@ class ViaAccountAuthService
     {
         $config = config('services.viaaccount');
 
-        $payload = [
-            'grant_type' => 'authorization_code',
-            'client_id' => $config['client_id'],
-            'client_secret' => $config['client_secret'],
-            'redirect_uri' => $config['redirect'],
-            'code' => $code,
-        ];
+        $response = Http::asForm()
+            ->acceptJson()
+            ->post($config['token_endpoint'], [
+                'grant_type' => 'authorization_code',
+                'client_id' => $config['client_id'],
+                'client_secret' => $config['client_secret'],
+                'redirect_uri' => $config['redirect'],
+                'code' => $code,
+            ]);
 
-        // First try: client credentials in body (some providers accept this)
-        $response = Http::asForm()->post($config['token_endpoint'], $payload);
-
-        // If provider rejects client authentication, try HTTP Basic auth as fallback
         if (! $response->successful()) {
-            $body = $response->body();
-            logger()->warning('ViaAccount token endpoint first attempt failed', ['status' => $response->status(), 'body' => $body]);
-
-            // Try Basic auth (Authorization: Basic base64(client_id:client_secret))
-            $responseBasic = Http::withBasicAuth($config['client_id'], $config['client_secret'])
-                ->asForm()
-                ->post($config['token_endpoint'], [
-                    'grant_type' => 'authorization_code',
-                    'redirect_uri' => $config['redirect'],
-                    'code' => $code,
-                ]);
-
-            if ($responseBasic->successful()) {
-                return $responseBasic->json();
-            }
-
-            logger()->warning('ViaAccount token endpoint basic auth attempt failed', ['status' => $responseBasic->status(), 'body' => $responseBasic->body()]);
+            Log::error('ViaAccount token endpoint failed', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
 
             return [];
         }
 
-        return $response->json();
+        return $response->json() ?? [];
     }
 
     public function fetchUserProfile(string $accessToken): array
@@ -74,6 +60,15 @@ class ViaAccountAuthService
             ->acceptJson()
             ->get($config['user_endpoint']);
 
-        return $response->successful() ? $response->json() : [];
+        if (! $response->successful()) {
+            Log::error('ViaAccount user endpoint failed', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+
+            return [];
+        }
+
+        return $response->json() ?? [];
     }
 }
