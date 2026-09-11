@@ -5,8 +5,8 @@ use Livewire\Component;
 
 new class extends Component
 {
-    public $summary;
-    
+    public array $summary;
+
     public function mount(MemberDashboardService $service): void
     {
         $this->summary = $service->summary(
@@ -16,7 +16,6 @@ new class extends Component
 
     public function render()
     {
-        return $this->view()
-            ->layout('layouts::member.app');
+        return $this->view()->layout('layouts::member.app');
     }
 };

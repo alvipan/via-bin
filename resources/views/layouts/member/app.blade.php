@@ -34,7 +34,21 @@
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
 
-            <flux:sidebar.nav class="space-y-6">
+            <flux:sidebar.nav class="space-y-1">
+                <flux:sidebar.item href="{{ route('member.dashboard') }}" icon="home"
+                    :current="request()->routeIs('member.dashboard')">
+                    Dashboard
+                </flux:sidebar.item>
+
+                <flux:sidebar.item href="{{ route('member.deposits.index') }}" icon="archive-box"
+                    :current="request()->routeIs('member.deposits.*')">
+                    Setoran
+                </flux:sidebar.item>
+
+                <flux:sidebar.item href="{{ route('member.transactions.index') }}" icon="banknotes"
+                    :current="request()->routeIs('member.transactions.*')">
+                    Transaksi
+                </flux:sidebar.item>
 
             </flux:sidebar.nav>
 
@@ -66,7 +80,7 @@
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
             <flux:spacer />
             <flux:dropdown position="top" align="start">
-                <flux:profile name="{{ member()->name }}" />
+                <flux:profile :chevron="false" />
                 <flux:menu>
                     <flux:menu.radio.group>
                         <flux:menu.radio checked>{{ member()->name }}</flux:menu.radio>

@@ -16,7 +16,7 @@ new class extends Component
         }
     }
 
-    public function login(MemberAuthService $auth): mixed
+    public function login(MemberAuthService $auth)
     {
         $this->validate([
             'tenantCode' => ['required'],
@@ -29,8 +29,7 @@ new class extends Component
                 $this->memberCode,
             );
 
-            return $this->redirectRoute('member.dashboard');
-
+            $this->redirectRoute('member.dashboard');
         } catch (RuntimeException $e) {
             $this->addError('memberCode', $e->getMessage());
         }
