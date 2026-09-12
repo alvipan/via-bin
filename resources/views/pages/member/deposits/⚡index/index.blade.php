@@ -7,21 +7,21 @@
                 Riwayat Setoran
             </flux:heading>
 
-            <flux:text class="mt-1 text-zinc-500 dark:text-zinc-400">
+            <flux:text class="mt-0.5 text-zinc-500 dark:text-zinc-400">
                 Pantau seluruh status setoran sampah dan detail transaksi lot Anda.
             </flux:text>
         </div>
     </div>
 
     <!-- Filter & Search Controls -->
-    <div class="flex flex-col gap-3 sm:flex-row">
-        <div class="flex-1">
+    <flux:card class="flex gap-1 p-1">
+        <div class="max-sm:flex-1">
             <flux:input wire:model.live.debounce.300ms="search" icon="magnifying-glass"
-                placeholder="Cari nomor setoran (misal: DP...)" />
+                placeholder="Cari nomor setoran..." />
         </div>
 
-        <div class="w-full sm:w-48">
-            <flux:select wire:model.live="statusFilter" placeholder="Semua Status">
+        <div class="w-40">
+            <flux:select wire:model.live="statusFilter">
                 <flux:select.option value="">Semua Status</flux:select.option>
                 @foreach ($statuses as $status)
                     <flux:select.option value="{{ $status->value }}">
@@ -30,16 +30,17 @@
                 @endforeach
             </flux:select>
         </div>
-    </div>
+    </flux:card>
 
     <!-- 1. MOBILE VIEW: Card List (Tampil di layar < md) -->
     <div class="grid gap-4 md:hidden">
         @forelse ($deposits as $deposit)
-            <flux:card class="space-y-3 border border-zinc-200/80 p-4 shadow-sm dark:border-zinc-800">
+            <flux:card class="cursor-pointer space-y-3 p-4" :href="route('member.deposits.show', $deposit)"
+                wire:navigate>
 
                 <!-- Card Header: No Setoran & Status -->
                 <div class="flex items-center justify-between border-b border-zinc-100 pb-2.5 dark:border-zinc-800/60">
-                    <span class="font-mono font-bold text-zinc-900 dark:text-white">
+                    <span class="font-mono !font-bold text-zinc-900 dark:text-white">
                         {{ $deposit->deposit_no }}
                     </span>
 
@@ -51,7 +52,7 @@
                 <!-- Card Body: Tanggal & Jumlah Item -->
                 <div class="grid grid-cols-2 gap-2 pt-1 text-sm">
                     <div>
-                        <flux:text class="text-xs text-zinc-500 dark:text-zinc-400">Tanggal Posting</flux:text>
+                        <flux:text class="text-xs text-zinc-500 dark:text-zinc-400">Tanggal</flux:text>
                         <p class="font-medium text-zinc-700 dark:text-zinc-300">
                             {{ $deposit->posted_at ? $deposit->posted_at->format('d M Y, H:i') : '-' }}
                         </p>
@@ -71,17 +72,9 @@
                     </div>
                 @endif
 
-                <!-- Tombol Detail (Mobile) -->
-                <div class="flex justify-end border-t border-zinc-100 pt-2 dark:border-zinc-800/40">
-                    <flux:button :href="route('member.deposits.show', $deposit)" wire:navigate variant="subtle"
-                        size="sm" icon-trailing="chevron-right">
-                        Detail
-                    </flux:button>
-                </div>
-
             </flux:card>
         @empty
-            <flux:card class="border border-dashed border-zinc-300 py-12 text-center dark:border-zinc-700">
+            <flux:card class="py-12 text-center">
                 <flux:text class="text-zinc-500 dark:text-zinc-400">
                     Tidak ada data setoran ditemukan.
                 </flux:text>
@@ -91,11 +84,11 @@
 
     <!-- 2. DESKTOP VIEW: Table (Tampil di layar >= md) -->
     <div class="hidden md:block">
-        <flux:card class="overflow-hidden border border-zinc-200/80 shadow-sm dark:border-zinc-800">
+        <flux:card class="overflow-hidden border border-zinc-200/80 py-2.5 shadow-sm dark:border-zinc-800">
             <flux:table>
                 <flux:table.columns>
                     <flux:table.column class="pl-6">No. Setoran</flux:table.column>
-                    <flux:table.column>Tanggal Posting</flux:table.column>
+                    <flux:table.column>Tanggal</flux:table.column>
                     <flux:table.column align="center">Total Item</flux:table.column>
                     <flux:table.column>Catatan</flux:table.column>
                     <flux:table.column align="center">Status</flux:table.column>
@@ -106,8 +99,7 @@
                     @forelse ($deposits as $deposit)
                         <flux:table.row class="hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30">
 
-                            <flux:table.cell variant="strong"
-                                class="pl-6 font-mono font-bold text-zinc-900 dark:text-white">
+                            <flux:table.cell class="font-mono !font-bold text-zinc-900 dark:text-white">
                                 {{ $deposit->deposit_no }}
                             </flux:table.cell>
 
@@ -132,9 +124,9 @@
                             </flux:table.cell>
 
                             <!-- Tombol Detail (Desktop) -->
-                            <flux:table.cell align="end" class="pr-6">
+                            <flux:table.cell align="end">
                                 <flux:button :href="route('member.deposits.show', $deposit)" wire:navigate
-                                    variant="subtle" size="sm" icon-trailing="chevron-right">
+                                    variant="subtle" size="sm">
                                     Detail
                                 </flux:button>
                             </flux:table.cell>

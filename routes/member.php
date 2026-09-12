@@ -15,6 +15,8 @@ Route::middleware('auth:member')->group(function () {
     Route::livewire('/transactions', 'pages::member.transactions.index')->name('transactions.index');
     Route::livewire('/transactions/{transaction}', 'pages::member.transactions.show')->name('transactions.show');
 
+    Route::livewire('/wastes', 'pages::member.wastes.index')->name('wastes.index');
+
     Route::post('/logout', LogoutController::class)
         ->name('logout');
 });

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Deposit;
 use App\Models\Lot;
 use App\Models\Member;
 use App\Models\MemberLedger;
@@ -27,6 +28,18 @@ class MemberDashboardService
             'estimated_income' => $lots->sum->estimated_income,
 
             'active_lots' => $lots,
+
+            'recent_deposits' => Deposit::query()
+                ->where('member_id', $member->id)
+                ->latest()
+                ->take(5)
+                ->get(),
+
+            'recent_transactions' => MemberLedger::query()
+                ->where('member_id', $member->id)
+                ->latest()
+                ->take(5)
+                ->get(),
         ];
     }
 }

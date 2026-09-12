@@ -70,17 +70,17 @@
 
     <div class="grid gap-4 lg:grid-cols-4">
 
-    <flux:card>
+        <flux:card>
 
-        <flux:text class="text-zinc-500">
-            Total Anggota
-        </flux:text>
+            <flux:text class="text-zinc-500">
+                Total Anggota
+            </flux:text>
 
-        <flux:heading size="xl">
-            {{ number_format($totalMembers) }}
-        </flux:heading>
+            <flux:heading size="xl">
+                {{ number_format($totalMembers) }}
+            </flux:heading>
 
-    </flux:card>
+        </flux:card>
 
         <flux:card>
 

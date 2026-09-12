@@ -35,19 +35,24 @@
             </flux:sidebar.header>
 
             <flux:sidebar.nav class="space-y-1">
-                <flux:sidebar.item href="{{ route('member.dashboard') }}" icon="home"
+                <flux:sidebar.item wire:navigate href="{{ route('member.dashboard') }}" icon="home"
                     :current="request()->routeIs('member.dashboard')">
                     Dashboard
                 </flux:sidebar.item>
 
-                <flux:sidebar.item href="{{ route('member.deposits.index') }}" icon="archive-box"
+                <flux:sidebar.item wire:navigate href="{{ route('member.deposits.index') }}" icon="archive-box"
                     :current="request()->routeIs('member.deposits.*')">
                     Setoran
                 </flux:sidebar.item>
 
-                <flux:sidebar.item href="{{ route('member.transactions.index') }}" icon="banknotes"
+                <flux:sidebar.item wire:navigate href="{{ route('member.transactions.index') }}" icon="banknotes"
                     :current="request()->routeIs('member.transactions.*')">
                     Transaksi
+                </flux:sidebar.item>
+
+                <flux:sidebar.item wire:navigate href="{{ route('member.wastes.index') }}" icon="tag"
+                    :current="request()->routeIs('member.wastes.*')">
+                    Harga Sampah
                 </flux:sidebar.item>
 
             </flux:sidebar.nav>

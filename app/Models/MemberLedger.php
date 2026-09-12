@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class MemberLedger extends Model
 {
     use HasTenant;
-    
+
     protected $fillable = [
         'member_id',
 
@@ -56,7 +56,7 @@ class MemberLedger extends Model
 
     public function amount(): float
     {
-        return (float) ($this->credit ?: $this->debit);
+        return $this->isCredit() ? (float) $this->credit : (float) $this->debit;
     }
 
     public function isCredit(): bool

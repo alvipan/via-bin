@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class WasteType extends Model
 {
     use HasTenant;
-    
+
     protected $fillable = [
         'tenant_id',
         'name',
@@ -32,5 +32,4 @@ class WasteType extends Model
     {
         return $this->hasMany(DepositItem::class);
     }
-
 }
